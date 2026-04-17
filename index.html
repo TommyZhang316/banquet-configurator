@@ -30,7 +30,6 @@
     overflow-x: hidden;
   }
 
-  /* ── Header ── */
   header {
     border-bottom: 1px solid var(--border);
     padding: 22px 40px;
@@ -57,27 +56,24 @@
   }
   h1 small { display: block; font-family: 'Noto Serif SC'; font-size: 11px; letter-spacing: 0.15em; color: var(--muted); margin-top: 3px; }
 
-  /* ── Layout ── */
   .layout {
     display: grid;
     grid-template-columns: 340px 1fr;
     min-height: calc(100vh - 69px);
   }
 
-  /* ── Left Panel ── */
   .left-panel {
     background: var(--panel);
     border-right: 1px solid var(--border);
     overflow-y: auto;
     padding: 28px 24px;
+    max-height: calc(100vh - 69px);
   }
   .left-panel::-webkit-scrollbar { width: 4px; }
   .left-panel::-webkit-scrollbar-track { background: transparent; }
   .left-panel::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
 
-  .section {
-    margin-bottom: 30px;
-  }
+  .section { margin-bottom: 30px; }
   .section-title {
     font-family: 'Cinzel', serif;
     font-size: 10px;
@@ -89,20 +85,9 @@
     align-items: center;
     gap: 10px;
   }
-  .section-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-  .section-subtitle {
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 12px;
-    letter-spacing: 0.05em;
-  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .section-subtitle { font-size: 11px; color: var(--muted); margin-bottom: 12px; letter-spacing: 0.05em; }
 
-  /* Swatch Grid */
   .swatch-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
@@ -118,12 +103,7 @@
   }
   .swatch:hover { border-color: var(--gold-dim); transform: translateY(-1px); }
   .swatch.active { border-color: var(--gold); box-shadow: 0 0 10px rgba(201,168,76,0.35); }
-  .swatch-color {
-    height: 42px;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-  }
+  .swatch-color { height: 42px; width: 100%; position: relative; overflow: hidden; }
   .swatch-label {
     background: rgba(14,13,11,0.85);
     padding: 4px 5px;
@@ -149,13 +129,7 @@
   }
   .swatch.active .check-mark { display: flex; }
 
-  /* Flower sub-selector */
-  .flower-type-tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-  }
+  .flower-type-tabs { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
   .ftab {
     padding: 4px 11px;
     border: 1px solid var(--border);
@@ -172,26 +146,23 @@
   .flower-colors { display: none; }
   .flower-colors.visible { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 6px; }
 
-  /* ── Right Panel ── */
   .right-panel {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 36px 40px;
+    padding: 32px 40px;
     background: var(--charcoal);
     position: relative;
     overflow: hidden;
   }
-
-  /* Ambient glow */
   .right-panel::before {
     content: '';
     position: absolute;
     top: -120px; left: 50%;
     transform: translateX(-50%);
-    width: 500px; height: 500px;
-    background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%);
+    width: 700px; height: 700px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
     pointer-events: none;
   }
 
@@ -201,80 +172,84 @@
     letter-spacing: 0.4em;
     color: var(--gold);
     text-transform: uppercase;
-    margin-bottom: 22px;
+    margin-bottom: 12px;
+  }
+  .preview-hint {
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+    font-style: italic;
   }
 
-  /* SVG Table */
-  #table-svg {
-    width: min(520px, 100%);
-    height: min(520px, 100vw - 380px);
-    filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6));
-    transition: all 0.3s;
-    flex-shrink: 0;
+  #scene-container {
+    width: min(620px, 100%);
+    aspect-ratio: 1 / 1;
+    max-height: calc(100vh - 360px);
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: radial-gradient(ellipse at center, #1a1713 0%, #0b0a08 100%);
+    box-shadow: 0 25px 70px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.15);
   }
+  #scene-container canvas { display: block; width: 100% !important; height: 100% !important; }
 
-  /* Summary card */
+  .loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.3em;
+    font-size: 11px;
+    z-index: 5;
+    background: rgba(14,13,11,0.95);
+    transition: opacity 0.5s;
+  }
+  .loading.hidden { opacity: 0; pointer-events: none; }
+
   .summary-card {
-    margin-top: 28px;
-    width: min(520px, 100%);
+    margin-top: 20px;
+    width: min(620px, 100%);
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 18px 22px;
+    padding: 16px 22px;
   }
   .summary-title {
     font-family: 'Cinzel', serif;
     font-size: 10px;
     letter-spacing: 0.3em;
     color: var(--gold);
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     text-transform: uppercase;
   }
   .summary-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 20px;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px 20px;
   }
-  .summary-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+  .summary-item { display: flex; flex-direction: column; gap: 2px; }
   .summary-item-label {
     font-size: 9px;
     letter-spacing: 0.15em;
     color: var(--muted);
     text-transform: uppercase;
   }
-  .summary-item-value {
-    font-size: 13px;
-    color: var(--text);
-    font-style: italic;
-  }
-  .summary-dot {
-    display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    margin-right: 5px;
-    vertical-align: middle;
-  }
-
-  /* Shimmer keyframes for organza */
-  @keyframes shimmer {
-    0%, 100% { opacity: 0.55; }
-    50% { opacity: 0.85; }
-  }
-  @keyframes shimmerG {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  @keyframes floatPetal {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-2px) rotate(4deg); }
-  }
-
-  /* Linen gradient definitions injected via JS into SVG defs */
+  .summary-item-value { font-size: 12px; color: var(--text); font-style: italic; }
+  .summary-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
 </style>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.161.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.161.0/examples/jsm/"
+  }
+}
+</script>
 </head>
 <body>
 
@@ -286,38 +261,38 @@
 
 <div class="layout">
 
-  <!-- ════ LEFT PANEL ════ -->
   <div class="left-panel">
 
-    <!-- 1. Table Linen -->
     <div class="section">
       <div class="section-title">Table Linen</div>
       <div class="section-subtitle">桌布选择</div>
       <div class="swatch-grid" id="linen-grid"></div>
     </div>
 
-    <!-- 2. Seat Cover -->
     <div class="section">
       <div class="section-title">Seat Cover</div>
       <div class="section-subtitle">椅套选择</div>
       <div class="swatch-grid" id="seat-grid"></div>
     </div>
 
-    <!-- 3. Show Plate -->
     <div class="section">
       <div class="section-title">Show Plate</div>
       <div class="section-subtitle">展示盘</div>
       <div class="swatch-grid" id="plate-grid"></div>
     </div>
 
-    <!-- 4. Napkin -->
     <div class="section">
       <div class="section-title">Napkin</div>
-      <div class="section-subtitle">餐巾</div>
+      <div class="section-subtitle">餐巾颜色</div>
       <div class="swatch-grid" id="napkin-grid"></div>
     </div>
 
-    <!-- 5. Centerpiece -->
+    <div class="section">
+      <div class="section-title">Napkin Ring</div>
+      <div class="section-subtitle">餐巾环</div>
+      <div class="swatch-grid" id="ring-grid"></div>
+    </div>
+
     <div class="section">
       <div class="section-title">Centerpiece</div>
       <div class="section-subtitle">桌花摆设</div>
@@ -327,67 +302,14 @@
 
   </div>
 
-  <!-- ════ RIGHT PANEL ════ -->
   <div class="right-panel">
-    <div class="preview-label">实时预览 · Live Preview</div>
+    <div class="preview-label">3D 实时预览 · Live 3D Preview</div>
+    <div class="preview-hint">拖动旋转 · 滚轮缩放 · Drag to rotate · Scroll to zoom</div>
 
-    <svg id="table-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-      <defs id="svg-defs">
-        <!-- Dynamic gradients injected here -->
-      </defs>
+    <div id="scene-container">
+      <div class="loading" id="loading">Loading 3D Scene…</div>
+    </div>
 
-      <!-- Room floor -->
-      <rect width="500" height="500" fill="#1a1916"/>
-      <!-- Subtle parquet texture lines -->
-      <g stroke="rgba(255,255,255,0.03)" stroke-width="1">
-        <line x1="0" y1="50" x2="500" y2="50"/>
-        <line x1="0" y1="100" x2="500" y2="100"/>
-        <line x1="0" y1="150" x2="500" y2="150"/>
-        <line x1="0" y1="200" x2="500" y2="200"/>
-        <line x1="0" y1="250" x2="500" y2="250"/>
-        <line x1="0" y1="300" x2="500" y2="300"/>
-        <line x1="0" y1="350" x2="500" y2="350"/>
-        <line x1="0" y1="400" x2="500" y2="400"/>
-        <line x1="0" y1="450" x2="500" y2="450"/>
-        <line x1="50" y1="0" x2="50" y2="500"/>
-        <line x1="100" y1="0" x2="100" y2="500"/>
-        <line x1="150" y1="0" x2="150" y2="500"/>
-        <line x1="200" y1="0" x2="200" y2="500"/>
-        <line x1="250" y1="0" x2="250" y2="500"/>
-        <line x1="300" y1="0" x2="300" y2="500"/>
-        <line x1="350" y1="0" x2="350" y2="500"/>
-        <line x1="400" y1="0" x2="400" y2="500"/>
-        <line x1="450" y1="0" x2="450" y2="500"/>
-      </g>
-
-      <!-- Chairs group (rendered behind table) -->
-      <g id="chairs-group"></g>
-
-      <!-- Table shadow -->
-      <ellipse cx="250" cy="258" rx="168" ry="22" fill="rgba(0,0,0,0.45)"/>
-
-      <!-- Table surface -->
-      <circle id="table-cloth" cx="250" cy="250" r="165" fill="#C9A84C"/>
-
-      <!-- Organza shimmer overlay -->
-      <circle id="shimmer-overlay" cx="250" cy="250" r="165" fill="url(#shimmerGrad)" opacity="0.45" style="pointer-events:none"/>
-
-      <!-- Table edge highlight -->
-      <circle cx="250" cy="250" r="165" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-      <circle cx="250" cy="250" r="157" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
-
-      <!-- Place settings group -->
-      <g id="places-group"></g>
-
-      <!-- Centerpiece -->
-      <g id="centerpiece-group"></g>
-
-      <!-- Gold rim ring on table edge -->
-      <circle cx="250" cy="250" r="163" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="2"/>
-
-    </svg>
-
-    <!-- Summary -->
     <div class="summary-card">
       <div class="summary-title">当前配置 · Current Selection</div>
       <div class="summary-grid" id="summary-grid"></div>
@@ -396,383 +318,892 @@
 
 </div>
 
-<script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
 // ═══════════════════════════════════════════════════════════
 //  DATA
 // ═══════════════════════════════════════════════════════════
 const DATA = {
   linen: [
-    { id:'purple-organza',    label:'Purple Organza\n紫色',     bg:'#7B5EA7', shimmer:'#C9B3E8', type:'organza' },
-    { id:'silver-organza',    label:'Silver Organza\n银色',     bg:'#A8ADB6', shimmer:'#E8EBF0', type:'organza' },
-    { id:'gold-organza',      label:'Gold Organza\n金色',       bg:'#C9A84C', shimmer:'#F0D97A', type:'organza' },
-    { id:'champagne-pattern', label:'Champagne\n香槟花纹',      bg:'#D4B896', shimmer:'#F5E8D4', type:'brocade' },
+    { id:'purple-organza',    label:'Purple Organza\n紫色欧根',  bg:0x7B5EA7, shimmer:0xC9B3E8, type:'organza' },
+    { id:'silver-organza',    label:'Silver Organza\n银色欧根',  bg:0xA8ADB6, shimmer:0xE8EBF0, type:'organza' },
+    { id:'gold-organza',      label:'Gold Organza\n金色欧根',    bg:0xC9A84C, shimmer:0xF0D97A, type:'organza' },
+    { id:'champagne-pattern', label:'Champagne\n香槟花纹',       bg:0xD4B896, shimmer:0xF5E8D4, type:'brocade' },
+    { id:'gold-solid',        label:'Gold\n金',                   bg:0xB8922E, shimmer:0xE0B84A, type:'solid' },
+    { id:'ruby',              label:'Ruby\n宝石红',               bg:0x8B1A2B, shimmer:0xC44759, type:'solid' },
+    { id:'violet',            label:'Violet\n紫罗兰',             bg:0x5A3A8C, shimmer:0x8E5FB8, type:'solid' },
   ],
   seat: [
-    { id:'white-spandex', label:'White Spandex\n白色弹力', color:'#F5F0E8' },
-    { id:'gold-crepe',    label:'Gold Crepe\n金色皱纹',    color:'#C9A84C' },
-    { id:'purple',        label:'Purple\n紫色',             color:'#6B4A8C' },
-    { id:'burgundy',      label:'Burgundy\n酒红',           color:'#6B2737' },
-    { id:'silver-crepe',  label:'Silver Crepe\n银色皱纹',   color:'#A8AEBB' },
+    { id:'white-spandex', label:'White Spandex\n白色弹力', color:0xF5F0E8 },
+    { id:'gold-crepe',    label:'Gold Crepe\n金色皱纹',    color:0xC9A84C },
+    { id:'purple',        label:'Purple\n紫色',             color:0x6B4A8C },
+    { id:'burgundy',      label:'Burgundy\n酒红',           color:0x6B2737 },
+    { id:'silver-crepe',  label:'Silver Crepe\n银色皱纹',   color:0xA8AEBB },
   ],
   plate: [
-    { id:'plate-red',   label:'Red\n红色',      rim:'#C0392B', inner:'#F8F4EE' },
-    { id:'plate-gold',  label:'Gold Rim\n金边', rim:'#C9A84C', inner:'#FDFAF4' },
-    { id:'plate-beige', label:'Beige Trim\n米边',rim:'#C4A882', inner:'#FBF8F2' },
-    { id:'plate-silver',label:'Silver\n银色',   rim:'#A8ADB6', inner:'#FAFAFA' },
+    { id:'plate-red',   label:'Red\n红色',      rim:0xC0392B, inner:0xF8F4EE },
+    { id:'plate-gold',  label:'Gold Rim\n金边', rim:0xC9A84C, inner:0xFDFAF4 },
+    { id:'plate-beige', label:'Beige Trim\n米边',rim:0xC4A882, inner:0xFBF8F2 },
+    { id:'plate-silver',label:'Silver\n银色',   rim:0xA8ADB6, inner:0xFAFAFA },
   ],
   napkin: [
-    { id:'napkin-goldpearl',  label:'Gold Pearl\n金珍珠',    color:'#C9A84C' },
-    { id:'napkin-whitegold',  label:'White Gold\n白金',       color:'#E8E0CC' },
-    { id:'napkin-silver',     label:'Silver Knot\n银结',      color:'#B0B8C4' },
-    { id:'napkin-ivory',      label:'Ivory\n象牙白',          color:'#F5F0E0' },
-    { id:'napkin-white',      label:'White\n白色',            color:'#FFFFFF' },
-    { id:'napkin-burgundy',   label:'Burgundy\n酒红',         color:'#7B2538' },
+    { id:'napkin-ivory',    label:'Ivory\n象牙白',  color:0xF5F0E0 },
+    { id:'napkin-white',    label:'White\n白色',    color:0xFFFFFF },
+    { id:'napkin-burgundy', label:'Burgundy\n酒红', color:0x7B2538 },
+  ],
+  napkinRing: [
+    { id:'ring-goldpearl', label:'Gold Pearl\n金珍珠',    metal:0xd4b05a, accent:0xfdfaf2, style:'pearl' },
+    { id:'ring-whitegold', label:'White Gold Cube\n白金方', metal:0xe8e4d8, accent:0xd4b05a, style:'cube' },
+    { id:'ring-silver',    label:'Silver Knot\n银结',     metal:0xc8cbd2, accent:0xa8adb6, style:'knot' },
   ],
   flowers: {
     'Mokara 莫卡拉': [
-      { id:'mok-red',    label:'Red\n红',      color:'#C0392B' },
-      { id:'mok-pink',   label:'Pink\n粉',     color:'#E87CA0' },
-      { id:'mok-purple', label:'Purple\n紫',   color:'#8E44AD' },
-      { id:'mok-yellow', label:'Yellow\n黄',   color:'#F1C40F' },
-      { id:'mok-orange', label:'Orange\n橙',   color:'#E67E22' },
+      { id:'mok-red',    label:'Red\n红',    color:0xC0392B },
+      { id:'mok-pink',   label:'Pink\n粉',   color:0xE87CA0 },
+      { id:'mok-purple', label:'Purple\n紫', color:0x8E44AD },
+      { id:'mok-yellow', label:'Yellow\n黄', color:0xF1C40F },
+      { id:'mok-orange', label:'Orange\n橙', color:0xE67E22 },
     ],
     'Hydrangea 绣球': [
-      { id:'hyd-pink',   label:'Pink\n粉',        color:'#E87CA0' },
-      { id:'hyd-white',  label:'White\n白',        color:'#F2F0EC' },
-      { id:'hyd-blue',   label:'Blue\n蓝',         color:'#4A90D9' },
-      { id:'hyd-lpurple',label:'Light Purple\n浅紫',color:'#B39DDB' },
+      { id:'hyd-pink',   label:'Pink\n粉',        color:0xE87CA0 },
+      { id:'hyd-white',  label:'White\n白',        color:0xF2F0EC },
+      { id:'hyd-blue',   label:'Blue\n蓝',         color:0x4A90D9 },
+      { id:'hyd-lpurple',label:'Light Purple\n浅紫',color:0xB39DDB },
     ],
     'Rose 玫瑰': [
-      { id:'ros-red',    label:'Red\n红',           color:'#C0392B' },
-      { id:'ros-pink',   label:'Pink\n粉',          color:'#E87CA0' },
-      { id:'ros-white',  label:'White\n白',         color:'#F2F0EC' },
-      { id:'ros-yellow', label:'Yellow\n黄',        color:'#F1C40F' },
-      { id:'ros-champ',  label:'Champagne\n香槟',   color:'#D4B896' },
-      { id:'ros-lpurple',label:'Light Purple\n浅紫',color:'#CE93D8' },
+      { id:'ros-red',    label:'Red\n红',           color:0xC0392B },
+      { id:'ros-pink',   label:'Pink\n粉',          color:0xE87CA0 },
+      { id:'ros-white',  label:'White\n白',         color:0xF2F0EC },
+      { id:'ros-yellow', label:'Yellow\n黄',        color:0xF1C40F },
+      { id:'ros-champ',  label:'Champagne\n香槟',   color:0xD4B896 },
+      { id:'ros-lpurple',label:'Light Purple\n浅紫',color:0xCE93D8 },
     ],
     'Rose Float 浮玫瑰': [
-      { id:'rosf-red',   label:'Red\n红',     color:'#C0392B' },
-      { id:'rosf-pink',  label:'Pink\n粉',    color:'#E87CA0' },
-      { id:'rosf-white', label:'White\n白',   color:'#F2F0EC' },
-      { id:'rosf-yellow',label:'Yellow\n黄',  color:'#F1C40F' },
-      { id:'rosf-champ', label:'Champagne\n香槟',color:'#D4B896' },
+      { id:'rosf-red',   label:'Red\n红',     color:0xC0392B },
+      { id:'rosf-pink',  label:'Pink\n粉',    color:0xE87CA0 },
+      { id:'rosf-white', label:'White\n白',   color:0xF2F0EC },
+      { id:'rosf-yellow',label:'Yellow\n黄',  color:0xF1C40F },
+      { id:'rosf-champ', label:'Champagne\n香槟',color:0xD4B896 },
     ],
   }
 };
 
-// ═══════════════════════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════════════════════
 const state = {
-  linen: DATA.linen[2],       // gold organza default
-  seat:  DATA.seat[0],        // white spandex
-  plate: DATA.plate[1],       // gold rim
-  napkin: DATA.napkin[0],     // gold pearl
-  flower: DATA.flowers['Rose 玫瑰'][0],  // rose red
+  linen: DATA.linen[2],
+  seat:  DATA.seat[0],
+  plate: DATA.plate[1],
+  napkin: DATA.napkin[0],
+  napkinRing: DATA.napkinRing[0],
+  flower: DATA.flowers['Rose 玫瑰'][0],
   flowerType: 'Rose 玫瑰',
 };
 
 // ═══════════════════════════════════════════════════════════
-//  GEOMETRY — 8 place settings at equal angles
+//  THREE.JS SETUP
 // ═══════════════════════════════════════════════════════════
-const CX = 250, CY = 250, TABLE_R = 165;
-const SEAT_R = 195; // chair center distance
-const PLACE_R = 138; // place setting center distance
-const N = 8;
+const container = document.getElementById('scene-container');
+const scene = new THREE.Scene();
+scene.background = null;
 
-function polar(cx, cy, r, angleDeg) {
-  const a = (angleDeg - 90) * Math.PI / 180;
-  return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(container.clientWidth, container.clientHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+container.appendChild(renderer.domElement);
+
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+camera.position.set(2.2, 1.8, 2.6);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 0.75, 0);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.minPolarAngle = 0.15;
+controls.maxPolarAngle = Math.PI * 0.47;
+controls.minDistance = 2.2;
+controls.maxDistance = 6;
+controls.enablePan = false;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 0.35;
+
+// Lights — warm chandelier ballroom atmosphere
+const ambient = new THREE.AmbientLight(0xfff2dd, 0.35);
+scene.add(ambient);
+
+const keyLight = new THREE.SpotLight(0xffdfa8, 2.6, 10, Math.PI/3.5, 0.55, 1.3);
+keyLight.position.set(0, 4.5, 0.3);
+keyLight.target.position.set(0, 0.7, 0);
+keyLight.castShadow = true;
+keyLight.shadow.mapSize.set(2048, 2048);
+keyLight.shadow.bias = -0.0005;
+keyLight.shadow.camera.near = 0.5;
+keyLight.shadow.camera.far = 10;
+scene.add(keyLight, keyLight.target);
+
+const fillWarm = new THREE.PointLight(0xffc877, 0.8, 8, 2);
+fillWarm.position.set(2.5, 1.8, 2);
+scene.add(fillWarm);
+
+const fillCool = new THREE.PointLight(0xaac2e8, 0.25, 8, 2);
+fillCool.position.set(-2.5, 2, -1.5);
+scene.add(fillCool);
+
+// Rim light from behind
+const rimLight = new THREE.DirectionalLight(0xffe0b0, 0.4);
+rimLight.position.set(-2, 3, -3);
+scene.add(rimLight);
+
+// Floor — patterned carpet feel
+const floorGeo = new THREE.CircleGeometry(5, 64);
+const floorMat = new THREE.MeshStandardMaterial({ color: 0x3a2a20, roughness: 0.95, metalness: 0 });
+const floor = new THREE.Mesh(floorGeo, floorMat);
+floor.rotation.x = -Math.PI/2;
+floor.receiveShadow = true;
+scene.add(floor);
+
+// Subtle decorative floor ring
+const ringGeo = new THREE.RingGeometry(1.5, 1.52, 64);
+const ringMat = new THREE.MeshStandardMaterial({ color: 0x5a3f28, roughness: 0.8, transparent:true, opacity:0.6 });
+const floorRing = new THREE.Mesh(ringGeo, ringMat);
+floorRing.rotation.x = -Math.PI/2;
+floorRing.position.y = 0.001;
+scene.add(floorRing);
+
+// ═══════════════════════════════════════════════════════════
+//  MATERIAL FACTORIES
+// ═══════════════════════════════════════════════════════════
+function makeLinenMaterial(item) {
+  if (item.type === 'organza') {
+    return new THREE.MeshPhysicalMaterial({
+      color: item.bg,
+      roughness: 0.42,
+      metalness: 0.15,
+      sheen: 1,
+      sheenColor: new THREE.Color(item.shimmer),
+      sheenRoughness: 0.25,
+      clearcoat: 0.12,
+      clearcoatRoughness: 0.4,
+      iridescence: 0.15,
+      iridescenceIOR: 1.4,
+    });
+  }
+  if (item.type === 'solid') {
+    // Solid satin/silk finish — rich color, subtle sheen
+    return new THREE.MeshPhysicalMaterial({
+      color: item.bg,
+      roughness: 0.55,
+      metalness: 0.1,
+      sheen: 0.85,
+      sheenColor: new THREE.Color(item.shimmer),
+      sheenRoughness: 0.45,
+      clearcoat: 0.08,
+    });
+  }
+  // Champagne brocade: procedural canvas texture
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 512;
+  const ctx = canvas.getContext('2d');
+  const base = '#' + item.bg.toString(16).padStart(6,'0');
+  const acc = '#' + item.shimmer.toString(16).padStart(6,'0');
+  ctx.fillStyle = base; ctx.fillRect(0,0,512,512);
+  ctx.strokeStyle = acc; ctx.globalAlpha = 0.55;
+  ctx.lineWidth = 1.4;
+  for (let y = 0; y < 512; y += 48) {
+    for (let x = 0; x < 512; x += 48) {
+      ctx.beginPath();
+      ctx.ellipse(x+24, y+24, 16, 10, Math.PI/4, 0, Math.PI*2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.ellipse(x+24, y+24, 10, 6, -Math.PI/4, 0, Math.PI*2);
+      ctx.stroke();
+      ctx.beginPath(); ctx.arc(x+24, y+24, 3, 0, Math.PI*2); ctx.fill();
+    }
+  }
+  ctx.globalAlpha = 0.25;
+  ctx.fillStyle = acc;
+  for (let i=0; i<300; i++) {
+    ctx.fillRect(Math.random()*512, Math.random()*512, 1, 1);
+  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(3, 3);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return new THREE.MeshPhysicalMaterial({
+    map: tex,
+    color: 0xffffff,
+    roughness: 0.55,
+    metalness: 0.2,
+    sheen: 0.7,
+    sheenColor: new THREE.Color(item.shimmer),
+    sheenRoughness: 0.35,
+  });
+}
+
+function makeFabricMaterial(color, roughness = 0.75) {
+  return new THREE.MeshPhysicalMaterial({
+    color, roughness,
+    metalness: 0.04,
+    sheen: 0.4,
+    sheenColor: new THREE.Color(color).multiplyScalar(1.2),
+    sheenRoughness: 0.5,
+  });
+}
+
+function makePlateMaterial(color, isRim = false) {
+  return new THREE.MeshPhysicalMaterial({
+    color,
+    roughness: isRim ? 0.2 : 0.08,
+    metalness: isRim ? 0.5 : 0.05,
+    clearcoat: 1,
+    clearcoatRoughness: 0.05,
+  });
+}
+
+function makeGoldMetal() {
+  return new THREE.MeshPhysicalMaterial({
+    color: 0xd4b05a, roughness: 0.25, metalness: 0.9, clearcoat: 0.5
+  });
+}
+
+function makeGlassMaterial() {
+  return new THREE.MeshPhysicalMaterial({
+    color: 0xffffff, roughness: 0.02, metalness: 0,
+    transmission: 0.95, thickness: 0.15, ior: 1.5,
+    transparent: true, opacity: 1
+  });
 }
 
 // ═══════════════════════════════════════════════════════════
-//  SVG HELPERS
+//  BUILDERS
 // ═══════════════════════════════════════════════════════════
-function svgEl(tag, attrs) {
-  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-  return el;
+const TABLE_RADIUS = 1.05;
+const TABLE_TOP_Y = 0.76;
+const N_SEATS = 10;
+
+// Table group (reusable, swap material)
+const tableGroup = new THREE.Group();
+scene.add(tableGroup);
+
+let linenMat = makeLinenMaterial(state.linen);
+
+// Tablecloth draped to floor (cone frustum with slight flare)
+(function buildTable() {
+  // Draped skirt
+  const skirtGeo = new THREE.CylinderGeometry(TABLE_RADIUS + 0.04, TABLE_RADIUS + 0.12, TABLE_TOP_Y + 0.02, 72, 1, true);
+  // Add vertex noise for fabric drape
+  const pos = skirtGeo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
+    const angle = Math.atan2(z, x);
+    const verticalFactor = (TABLE_TOP_Y/2 - y) / TABLE_TOP_Y; // 0 top, 1 bottom
+    const waveFactor = verticalFactor * 0.5;
+    const wave = Math.sin(angle * 14) * 0.015 * waveFactor + Math.cos(angle * 7) * 0.008 * waveFactor;
+    const r = Math.sqrt(x*x + z*z);
+    const nr = r + wave;
+    pos.setX(i, Math.cos(angle) * nr);
+    pos.setZ(i, Math.sin(angle) * nr);
+  }
+  skirtGeo.computeVertexNormals();
+  const skirt = new THREE.Mesh(skirtGeo, linenMat);
+  skirt.name = 'skirt';
+  skirt.position.y = TABLE_TOP_Y/2;
+  skirt.castShadow = true;
+  skirt.receiveShadow = true;
+  tableGroup.add(skirt);
+
+  // Table top (slight dome for cloth)
+  const topGeo = new THREE.CircleGeometry(TABLE_RADIUS + 0.04, 72);
+  const topPos = topGeo.attributes.position;
+  for (let i = 0; i < topPos.count; i++) {
+    const x = topPos.getX(i), y = topPos.getY(i);
+    const r = Math.sqrt(x*x + y*y);
+    // Slight bowl curvature
+    topPos.setZ(i, -r*r*0.008);
+  }
+  topGeo.computeVertexNormals();
+  const top = new THREE.Mesh(topGeo, linenMat);
+  top.name = 'top';
+  top.rotation.x = -Math.PI/2;
+  top.position.y = TABLE_TOP_Y + 0.001;
+  top.receiveShadow = true;
+  tableGroup.add(top);
+
+  // Overlay runner/underlay for depth (darker ring at edge)
+  const edgeGeo = new THREE.RingGeometry(TABLE_RADIUS - 0.02, TABLE_RADIUS + 0.04, 72);
+  const edgeMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.15 });
+  const edge = new THREE.Mesh(edgeGeo, edgeMat);
+  edge.rotation.x = -Math.PI/2;
+  edge.position.y = TABLE_TOP_Y + 0.002;
+  tableGroup.add(edge);
+})();
+
+// Chairs group
+const chairsGroup = new THREE.Group();
+scene.add(chairsGroup);
+
+function buildChair(mat) {
+  const g = new THREE.Group();
+
+  // Bottom drape (slipcover to floor)
+  const drapeGeo = new THREE.CylinderGeometry(0.28, 0.32, 0.48, 24, 1, true);
+  // Slight ripples
+  const dp = drapeGeo.attributes.position;
+  for (let i = 0; i < dp.count; i++) {
+    const x = dp.getX(i), y = dp.getY(i), z = dp.getZ(i);
+    const angle = Math.atan2(z, x);
+    const vf = (0.24 - y) / 0.48;
+    const wave = Math.sin(angle * 10) * 0.012 * vf;
+    const r = Math.sqrt(x*x + z*z) + wave;
+    dp.setX(i, Math.cos(angle) * r);
+    dp.setZ(i, Math.sin(angle) * r);
+  }
+  drapeGeo.computeVertexNormals();
+  const drape = new THREE.Mesh(drapeGeo, mat);
+  drape.position.y = 0.24;
+  drape.castShadow = true;
+  drape.receiveShadow = true;
+  g.add(drape);
+
+  // Seat top
+  const seatGeo = new THREE.CylinderGeometry(0.28, 0.28, 0.06, 24);
+  const seat = new THREE.Mesh(seatGeo, mat);
+  seat.position.y = 0.51;
+  seat.castShadow = true;
+  g.add(seat);
+
+  // Chair back (rounded rectangular)
+  const backGeo = new THREE.BoxGeometry(0.48, 0.6, 0.08);
+  const back = new THREE.Mesh(backGeo, mat);
+  back.position.set(0, 0.85, -0.24);
+  back.castShadow = true;
+  g.add(back);
+
+  // Top crown of chair back (slight curve)
+  const crownGeo = new THREE.BoxGeometry(0.48, 0.04, 0.1);
+  const crown = new THREE.Mesh(crownGeo, mat);
+  crown.position.set(0, 1.17, -0.24);
+  g.add(crown);
+
+  // Decorative sash bow at back
+  const sashGeo = new THREE.BoxGeometry(0.36, 0.12, 0.02);
+  const sashMat = new THREE.MeshPhysicalMaterial({
+    color: 0xd4b05a, roughness: 0.3, metalness: 0.6, sheen: 0.5, sheenColor: new THREE.Color(0xf0d97a)
+  });
+  const sash = new THREE.Mesh(sashGeo, sashMat);
+  sash.position.set(0, 0.62, -0.29);
+  g.add(sash);
+  // Bow knot
+  const knotGeo = new THREE.SphereGeometry(0.05, 16, 8);
+  const knot = new THREE.Mesh(knotGeo, sashMat);
+  knot.position.set(0, 0.62, -0.32);
+  knot.scale.set(1.2, 0.8, 0.8);
+  g.add(knot);
+
+  return g;
 }
 
-function clearEl(id) { document.getElementById(id).innerHTML = ''; }
-
-// ═══════════════════════════════════════════════════════════
-//  RENDER FUNCTIONS
-// ═══════════════════════════════════════════════════════════
-
-function renderLinen() {
-  const l = state.linen;
-  const cloth = document.getElementById('table-cloth');
-  const overlay = document.getElementById('shimmer-overlay');
-  const defs = document.getElementById('svg-defs');
-
-  cloth.setAttribute('fill', l.bg);
-
-  // Update shimmer gradient
-  let shimmerGrad = document.getElementById('shimmerGrad');
-  if (!shimmerGrad) {
-    shimmerGrad = svgEl('radialGradient', { id:'shimmerGrad', cx:'40%', cy:'35%', r:'70%' });
-    defs.appendChild(shimmerGrad);
-  }
-  shimmerGrad.innerHTML = `
-    <stop offset="0%" stop-color="${l.shimmer}" stop-opacity="0.7"/>
-    <stop offset="60%" stop-color="${l.shimmer}" stop-opacity="0.2"/>
-    <stop offset="100%" stop-color="${l.bg}" stop-opacity="0"/>
-  `;
-
-  if (l.type === 'brocade') {
-    // Champagne brocade: add subtle pattern overlay
-    let brocade = document.getElementById('brocade-overlay');
-    if (!brocade) {
-      brocade = svgEl('circle', { id:'brocade-overlay', cx:'250', cy:'250', r:'165', fill:'url(#brocadePat)', opacity:'0.18' });
-      overlay.parentNode.insertBefore(brocade, overlay);
-      const pat = svgEl('pattern', { id:'brocadePat', patternUnits:'userSpaceOnUse', width:'20', height:'20' });
-      pat.innerHTML = `<path d="M10 0 Q15 5 10 10 Q5 15 10 20" fill="none" stroke="#8B6914" stroke-width="0.8" opacity="0.6"/>
-                       <path d="M0 10 Q5 5 10 10 Q15 5 20 10" fill="none" stroke="#8B6914" stroke-width="0.8" opacity="0.6"/>`;
-      defs.appendChild(pat);
-    }
-    brocade.style.display = '';
-  } else {
-    const b = document.getElementById('brocade-overlay');
-    if (b) b.style.display = 'none';
-  }
-  overlay.setAttribute('fill', 'url(#shimmerGrad)');
+for (let i = 0; i < N_SEATS; i++) {
+  const angle = (i / N_SEATS) * Math.PI * 2;
+  const chair = buildChair(makeFabricMaterial(state.seat.color));
+  chair.position.set(Math.cos(angle) * 1.44, 0, Math.sin(angle) * 1.44);
+  chair.rotation.y = -angle + Math.PI/2;
+  chair.userData.isChair = true;
+  chairsGroup.add(chair);
 }
 
-function renderChairs() {
-  const g = document.getElementById('chairs-group');
-  g.innerHTML = '';
-  const color = state.seat.color;
+// Place settings group
+const placesGroup = new THREE.Group();
+scene.add(placesGroup);
 
-  for (let i = 0; i < N; i++) {
-    const angle = (i / N) * 360;
-    const pos = polar(CX, CY, SEAT_R, angle);
-    const back_pos = polar(CX, CY, SEAT_R + 18, angle);
-
-    const chairG = svgEl('g', { transform: `rotate(${angle}, ${pos.x}, ${pos.y})` });
-
-    // Chair seat
-    const seat = svgEl('ellipse', {
-      cx: pos.x, cy: pos.y, rx: '18', ry: '14',
-      fill: color,
-      stroke: 'rgba(0,0,0,0.3)', 'stroke-width': '1'
+function buildNapkinRingInto(container, ringItem) {
+  // Clear existing
+  while (container.children.length) {
+    const c = container.children[0];
+    container.remove(c);
+    c.traverse(o => {
+      if (o.geometry) o.geometry.dispose();
+      if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => m.dispose());
     });
-    // Chair back
-    const back = svgEl('rect', {
-      x: pos.x - 14, y: pos.y - 30,
-      width: '28', height: '12', rx: '4',
-      fill: color,
-      stroke: 'rgba(0,0,0,0.3)', 'stroke-width': '1'
-    });
-    // Highlight on back
-    const hl = svgEl('rect', {
-      x: pos.x - 10, y: pos.y - 28,
-      width: '20', height: '3', rx: '1.5',
-      fill: 'rgba(255,255,255,0.18)'
-    });
-    chairG.appendChild(seat);
-    chairG.appendChild(back);
-    chairG.appendChild(hl);
-    g.appendChild(chairG);
   }
-}
+  const metalMat = new THREE.MeshPhysicalMaterial({
+    color: ringItem.metal, roughness: 0.18, metalness: 0.95, clearcoat: 0.7, clearcoatRoughness: 0.1
+  });
+  const accentMat = new THREE.MeshPhysicalMaterial({
+    color: ringItem.accent, roughness: 0.25, metalness: 0.7, clearcoat: 0.5
+  });
 
-function renderPlaceSettings() {
-  const g = document.getElementById('places-group');
-  g.innerHTML = '';
-  const plate = state.plate;
-  const napkin = state.napkin;
-
-  for (let i = 0; i < N; i++) {
-    const angle = (i / N) * 360;
-    const pos = polar(CX, CY, PLACE_R, angle);
-    const rad = (angle - 90) * Math.PI / 180;
-
-    const pg = svgEl('g', {});
-
-    // Show plate - outer rim
-    const plateOuter = svgEl('circle', {
-      cx: pos.x, cy: pos.y, r: '16',
-      fill: plate.rim,
-      stroke: 'rgba(0,0,0,0.2)', 'stroke-width': '0.5'
+  if (ringItem.style === 'pearl') {
+    // Gold band with pearl cluster
+    const ringGeo = new THREE.TorusGeometry(0.04, 0.01, 16, 32);
+    const ring = new THREE.Mesh(ringGeo, metalMat);
+    ring.rotation.y = Math.PI / 2;
+    container.add(ring);
+    // 3 pearls on top
+    const pearlMat = new THREE.MeshPhysicalMaterial({
+      color: ringItem.accent, roughness: 0.1, metalness: 0.05, clearcoat: 1, clearcoatRoughness: 0.05,
+      sheen: 1, sheenColor: 0xffffff, sheenRoughness: 0.15, iridescence: 0.3
     });
-    // Show plate - inner
-    const plateInner = svgEl('circle', {
-      cx: pos.x, cy: pos.y, r: '12',
-      fill: plate.inner,
-      stroke: 'rgba(0,0,0,0.08)', 'stroke-width': '0.5'
-    });
-    // Plate highlight
-    const plateHL = svgEl('circle', {
-      cx: pos.x - 3, cy: pos.y - 3, r: '4',
-      fill: 'rgba(255,255,255,0.15)'
-    });
-
-    // Napkin - offset to the right of plate (tangentially)
-    const napkAngle = angle + 90;
-    const napkRad = napkAngle * Math.PI / 180;
-    const napkX = pos.x + Math.cos(napkRad) * 22;
-    const napkY = pos.y + Math.sin(napkRad) * 22;
-
-    const napkG = svgEl('g', { transform: `rotate(${angle}, ${napkX}, ${napkY})` });
-    const napkRect = svgEl('rect', {
-      x: napkX - 5, y: napkY - 7, width: '10', height: '14', rx: '2',
-      fill: napkin.color,
-      stroke: 'rgba(0,0,0,0.2)', 'stroke-width': '0.5'
-    });
-    const napkFold = svgEl('line', {
-      x1: napkX - 5, y1: napkY, x2: napkX + 5, y2: napkY,
-      stroke: 'rgba(0,0,0,0.1)', 'stroke-width': '0.5'
-    });
-    napkG.appendChild(napkRect);
-    napkG.appendChild(napkFold);
-
-    pg.appendChild(plateOuter);
-    pg.appendChild(plateInner);
-    pg.appendChild(plateHL);
-    pg.appendChild(napkG);
-    g.appendChild(pg);
-  }
-}
-
-function renderCenterpiece() {
-  const g = document.getElementById('centerpiece-group');
-  g.innerHTML = '';
-  const f = state.flower;
-  const isFloat = state.flowerType.includes('Float');
-  const color = f.color;
-  const colorDark = shadeColor(color, -25);
-  const colorLight = shadeColor(color, 20);
-
-  if (isFloat) {
-    // Floating roses: water bowl effect
-    const bowl = svgEl('circle', { cx:'250', cy:'250', r:'32', fill:'rgba(60,90,120,0.35)', stroke:'rgba(255,255,255,0.15)', 'stroke-width':'1.5' });
-    g.appendChild(bowl);
-    const waterHL = svgEl('ellipse', { cx:'242', cy:'243', rx:'12', ry:'7', fill:'rgba(255,255,255,0.1)' });
-    g.appendChild(waterHL);
-    // 3 floating roses
-    const rpositions = [{x:250,y:242},{x:241,y:257},{x:261,y:257}];
-    rpositions.forEach(p => {
-      drawRose(g, p.x, p.y, 9, color, colorDark, colorLight);
-    });
-  } else if (state.flowerType.includes('Hydrangea')) {
-    // Hydrangea: cluster of small 4-petal flowers
-    const stem = svgEl('circle', { cx:'250', cy:'250', r:'35', fill:'rgba(34,60,28,0.4)' });
-    g.appendChild(stem);
-    // Draw many small flowers in a circle
-    for (let i = 0; i < 16; i++) {
-      const a = (i / 16) * 360;
-      const r = 10 + Math.random() * 14;
-      const p = polar(250, 250, r, a);
-      drawSmallFlower(g, p.x, p.y, 5, color, colorLight);
+    for (let i = 0; i < 3; i++) {
+      const p = new THREE.Mesh(new THREE.SphereGeometry(0.011, 16, 12), pearlMat);
+      p.position.set((i - 1) * 0.018, 0.045, 0);
+      container.add(p);
     }
-    for (let i = 0; i < 8; i++) {
-      const a = (i / 8) * 360;
-      const p = polar(250, 250, 22, a);
-      drawSmallFlower(g, p.x, p.y, 6, color, colorLight);
-    }
-  } else if (state.flowerType.includes('Mokara')) {
-    // Mokara: orchid-style arrangement
-    const vase = svgEl('ellipse', { cx:'250', cy:'260', rx:'14', ry:'8', fill:'rgba(201,168,76,0.4)', stroke:'rgba(201,168,76,0.6)', 'stroke-width':'1' });
-    g.appendChild(vase);
-    for (let i = 0; i < 7; i++) {
-      const a = (i / 7) * 360;
-      const r = 6 + (i % 3) * 8;
-      const p = polar(250, 248, r, a);
-      drawMokaraFlower(g, p.x, p.y, 10, color, colorDark);
-    }
-  } else {
-    // Roses arrangement
-    const vase = svgEl('ellipse', { cx:'250', cy:'258', rx:'16', ry:'9', fill:'rgba(201,168,76,0.4)', stroke:'rgba(201,168,76,0.7)', 'stroke-width':'1.5' });
-    g.appendChild(vase);
-    // Greenery
-    for (let i = 0; i < 8; i++) {
-      const a = (i / 8) * 360;
-      const p = polar(250, 248, 20, a);
-      const leaf = svgEl('ellipse', { cx: p.x, cy: p.y, rx:'5', ry:'3', fill:'#2D5A27', opacity:'0.7',
-        transform: `rotate(${a}, ${p.x}, ${p.y})` });
-      g.appendChild(leaf);
-    }
-    // Roses
-    const rpos = [{x:250,y:240},{x:239,y:250},{x:261,y:250},{x:250,y:258},{x:241,y:262},{x:259,y:262}];
-    rpos.forEach((p,i) => drawRose(g, p.x, p.y, 9 - i*0.5, color, colorDark, colorLight));
+  } else if (ringItem.style === 'cube') {
+    // White gold cube-shaped band (square cross-section ring)
+    const w = 0.09, h = 0.022, t = 0.012;
+    // Top and bottom bars
+    const barGeo = new THREE.BoxGeometry(w, t, 0.05);
+    const top = new THREE.Mesh(barGeo, metalMat);
+    top.position.y = h / 2;
+    container.add(top);
+    const bot = new THREE.Mesh(barGeo, metalMat);
+    bot.position.y = -h / 2;
+    container.add(bot);
+    // Side bars
+    const sideGeo = new THREE.BoxGeometry(t, h, 0.05);
+    const left = new THREE.Mesh(sideGeo, metalMat);
+    left.position.x = -w / 2 + t / 2;
+    container.add(left);
+    const right = new THREE.Mesh(sideGeo, metalMat);
+    right.position.x = w / 2 - t / 2;
+    container.add(right);
+    // Center gold accent
+    const accGeo = new THREE.BoxGeometry(0.018, 0.018, 0.01);
+    const acc = new THREE.Mesh(accGeo, accentMat);
+    acc.position.set(0, 0, 0.028);
+    acc.rotation.z = Math.PI / 4;
+    container.add(acc);
+  } else if (ringItem.style === 'knot') {
+    // Silver torus knot
+    const knotGeo = new THREE.TorusKnotGeometry(0.028, 0.008, 64, 12, 2, 3);
+    const knot = new THREE.Mesh(knotGeo, metalMat);
+    knot.rotation.y = Math.PI / 2;
+    container.add(knot);
   }
 }
 
-function drawRose(g, cx, cy, r, color, dark, light) {
-  // Simplified rose: concentric petals
-  for (let layer = 0; layer < 3; layer++) {
-    const lr = r - layer * 2.5;
-    for (let p = 0; p < (4 - layer); p++) {
-      const pa = (p / (4 - layer)) * 360 + layer * 22;
-      const px = cx + Math.cos((pa - 90) * Math.PI/180) * lr * 0.5;
-      const py = cy + Math.sin((pa - 90) * Math.PI/180) * lr * 0.5;
-      const petal = svgEl('ellipse', {
-        cx: px, cy: py, rx: lr * 0.55, ry: lr * 0.38,
-        fill: layer === 0 ? color : (layer === 1 ? dark : light),
-        opacity: '0.9',
-        transform: `rotate(${pa}, ${px}, ${py})`
-      });
-      g.appendChild(petal);
-    }
+function buildPlaceSetting() {
+  const g = new THREE.Group();
+
+  // Charger plate (larger base plate in gold/silver decorative)
+  const chargerGeo = new THREE.CylinderGeometry(0.165, 0.16, 0.01, 48);
+  const charger = new THREE.Mesh(chargerGeo, makePlateMaterial(state.plate.rim, true));
+  charger.name = 'charger';
+  charger.position.y = TABLE_TOP_Y + 0.005;
+  charger.receiveShadow = true;
+  charger.castShadow = true;
+  g.add(charger);
+
+  // Inner plate
+  const plateGeo = new THREE.CylinderGeometry(0.13, 0.125, 0.012, 48);
+  const plate = new THREE.Mesh(plateGeo, makePlateMaterial(state.plate.inner, false));
+  plate.name = 'plate';
+  plate.position.y = TABLE_TOP_Y + 0.012;
+  plate.receiveShadow = true;
+  plate.castShadow = true;
+  g.add(plate);
+
+  // Small bowl depression
+  const bowlGeo = new THREE.CylinderGeometry(0.115, 0.115, 0.003, 48);
+  const bowl = new THREE.Mesh(bowlGeo, makePlateMaterial(state.plate.inner, false));
+  bowl.name = 'bowl';
+  bowl.position.y = TABLE_TOP_Y + 0.017;
+  g.add(bowl);
+
+  // Folded napkin on plate (stylized pyramid/fan)
+  const napGroup = new THREE.Group();
+  napGroup.name = 'napkin';
+  const mat = makeFabricMaterial(state.napkin.color, 0.85);
+  // Folded stack
+  const nGeo = new THREE.BoxGeometry(0.18, 0.01, 0.07);
+  for (let f = 0; f < 3; f++) {
+    const fold = new THREE.Mesh(nGeo, mat);
+    fold.position.set(0, 0.008 + f*0.005, 0);
+    fold.rotation.y = f * 0.1;
+    fold.castShadow = true;
+    napGroup.add(fold);
   }
-  const center = svgEl('circle', { cx, cy, r:'2.5', fill: dark });
-  g.appendChild(center);
+  // Napkin ring (dynamic based on state.napkinRing)
+  const ringContainer = new THREE.Group();
+  ringContainer.name = 'ringContainer';
+  ringContainer.position.set(-0.06, 0.02, 0);
+  napGroup.add(ringContainer);
+  buildNapkinRingInto(ringContainer, state.napkinRing);
+  napGroup.position.set(0, TABLE_TOP_Y + 0.02, 0);
+  g.add(napGroup);
+
+  // Wine glass (to the upper-right of plate)
+  const glassMat = makeGlassMaterial();
+  const glassGroup = new THREE.Group();
+  const stemGeo = new THREE.CylinderGeometry(0.006, 0.006, 0.12, 12);
+  const stem = new THREE.Mesh(stemGeo, glassMat);
+  stem.position.y = 0.08;
+  glassGroup.add(stem);
+  const baseGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.003, 24);
+  const base = new THREE.Mesh(baseGeo, glassMat);
+  base.position.y = 0.015;
+  glassGroup.add(base);
+  const bowlGGeo = new THREE.SphereGeometry(0.045, 24, 16, 0, Math.PI*2, 0, Math.PI*0.6);
+  const bowlG = new THREE.Mesh(bowlGGeo, glassMat);
+  bowlG.position.y = 0.14;
+  bowlG.rotation.x = Math.PI;
+  glassGroup.add(bowlG);
+  glassGroup.position.set(0.14, TABLE_TOP_Y + 0.01, -0.14);
+  g.add(glassGroup);
+
+  // Cutlery (simple gold/silver blades)
+  const forkMat = new THREE.MeshPhysicalMaterial({ color: 0xe0e0e0, roughness: 0.2, metalness: 0.9 });
+  const forkGeo = new THREE.BoxGeometry(0.012, 0.003, 0.15);
+  const fork = new THREE.Mesh(forkGeo, forkMat);
+  fork.position.set(-0.19, TABLE_TOP_Y + 0.007, 0);
+  g.add(fork);
+  const knife = new THREE.Mesh(forkGeo, forkMat);
+  knife.position.set(0.19, TABLE_TOP_Y + 0.007, 0);
+  g.add(knife);
+
+  return g;
 }
 
-function drawSmallFlower(g, cx, cy, r, color, light) {
+for (let i = 0; i < N_SEATS; i++) {
+  const angle = (i / N_SEATS) * Math.PI * 2;
+  const ps = buildPlaceSetting();
+  ps.position.set(Math.cos(angle) * 0.82, 0, Math.sin(angle) * 0.82);
+  ps.rotation.y = -angle - Math.PI/2;
+  placesGroup.add(ps);
+}
+
+// Centerpiece group
+let centerpieceGroup = new THREE.Group();
+scene.add(centerpieceGroup);
+
+function rose3D(color, size = 0.05) {
+  const g = new THREE.Group();
+  const mat = new THREE.MeshPhysicalMaterial({
+    color, roughness: 0.55, metalness: 0.02,
+    sheen: 0.6, sheenColor: new THREE.Color(color).multiplyScalar(1.15), sheenRoughness: 0.4
+  });
+  for (let layer = 0; layer < 4; layer++) {
+    const lr = size * (1 - layer * 0.15);
+    const count = Math.max(3, 6 - layer);
+    for (let i = 0; i < count; i++) {
+      const a = (i/count) * Math.PI * 2 + layer * 0.35;
+      const petalGeo = new THREE.SphereGeometry(lr * 0.55, 10, 6);
+      const petal = new THREE.Mesh(petalGeo, mat);
+      petal.position.set(
+        Math.cos(a) * lr * 0.5,
+        layer * lr * 0.18,
+        Math.sin(a) * lr * 0.5
+      );
+      petal.scale.set(1, 0.55, 1);
+      petal.rotation.y = a;
+      petal.rotation.z = 0.3;
+      petal.castShadow = true;
+      g.add(petal);
+    }
+  }
+  const centerGeo = new THREE.SphereGeometry(size * 0.25, 12, 8);
+  const center = new THREE.Mesh(centerGeo, mat);
+  center.position.y = size * 0.4;
+  g.add(center);
+  return g;
+}
+
+function hydrangeaFloret(color, size = 0.035) {
+  const g = new THREE.Group();
+  const mat = new THREE.MeshPhysicalMaterial({
+    color, roughness: 0.6, sheen: 0.3, sheenColor: 0xffffff
+  });
   for (let i = 0; i < 4; i++) {
-    const a = i * 90;
-    const px = cx + Math.cos((a-90)*Math.PI/180) * r * 0.6;
-    const py = cy + Math.sin((a-90)*Math.PI/180) * r * 0.6;
-    const p = svgEl('circle', { cx:px, cy:py, r: r*0.55, fill:color, opacity:'0.85' });
-    g.appendChild(p);
+    const a = (i/4) * Math.PI * 2;
+    const petalGeo = new THREE.SphereGeometry(size * 0.55, 8, 5);
+    const petal = new THREE.Mesh(petalGeo, mat);
+    petal.position.set(Math.cos(a) * size * 0.4, 0, Math.sin(a) * size * 0.4);
+    petal.scale.set(1, 0.4, 1);
+    g.add(petal);
   }
-  const c = svgEl('circle', { cx, cy, r:'2', fill:light });
-  g.appendChild(c);
+  const cGeo = new THREE.SphereGeometry(size * 0.18, 8, 6);
+  const c = new THREE.Mesh(cGeo, new THREE.MeshStandardMaterial({ color: 0xf5e89a }));
+  g.add(c);
+  return g;
 }
 
-function drawMokaraFlower(g, cx, cy, r, color, dark) {
+function mokaraStem(color) {
+  const g = new THREE.Group();
+  const mat = new THREE.MeshPhysicalMaterial({
+    color, roughness: 0.5, sheen: 0.8, sheenColor: new THREE.Color(color).multiplyScalar(1.3)
+  });
+  const stemMat = new THREE.MeshStandardMaterial({ color: 0x2d5a27, roughness: 0.8 });
+  // Main stem
+  const stemGeo = new THREE.CylinderGeometry(0.005, 0.006, 0.28, 8);
+  const stem = new THREE.Mesh(stemGeo, stemMat);
+  stem.position.y = 0.14;
+  g.add(stem);
+  // Flowers along stem
   for (let i = 0; i < 5; i++) {
-    const a = i * 72 - 90;
-    const px = cx + Math.cos(a*Math.PI/180) * r * 0.7;
-    const py = cy + Math.sin(a*Math.PI/180) * r * 0.7;
-    const p = svgEl('ellipse', { cx:px, cy:py, rx:r*0.55, ry:r*0.3, fill:color, opacity:'0.85',
-      transform: `rotate(${a+90}, ${px}, ${py})` });
-    g.appendChild(p);
+    const fg = new THREE.Group();
+    for (let p = 0; p < 5; p++) {
+      const a = p * (Math.PI * 2 / 5);
+      const petalGeo = new THREE.SphereGeometry(0.022, 10, 6);
+      const petal = new THREE.Mesh(petalGeo, mat);
+      petal.position.set(Math.cos(a) * 0.015, 0, Math.sin(a) * 0.015);
+      petal.scale.set(1.3, 0.4, 0.7);
+      petal.rotation.y = a;
+      fg.add(petal);
+    }
+    const cGeo = new THREE.SphereGeometry(0.008, 10, 6);
+    const cMat = new THREE.MeshStandardMaterial({ color: 0xf1c40f });
+    const c = new THREE.Mesh(cGeo, cMat);
+    fg.add(c);
+    fg.position.y = 0.07 + i * 0.045;
+    fg.rotation.y = i * 0.6;
+    g.add(fg);
   }
-  const c = svgEl('circle', { cx, cy, r:'2.5', fill:dark, opacity:'0.9' });
-  g.appendChild(c);
+  return g;
 }
 
-function shadeColor(hex, pct) {
-  hex = hex.replace('#','');
-  if (hex.length === 3) hex = hex.split('').map(c=>c+c).join('');
-  let r = parseInt(hex.substring(0,2),16);
-  let gg = parseInt(hex.substring(2,4),16);
-  let b = parseInt(hex.substring(4,6),16);
-  r = Math.max(0, Math.min(255, r + Math.round(255 * pct/100)));
-  gg = Math.max(0, Math.min(255, gg + Math.round(255 * pct/100)));
-  b = Math.max(0, Math.min(255, b + Math.round(255 * pct/100)));
-  return `#${r.toString(16).padStart(2,'0')}${gg.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
+function leafGeometry() {
+  const mat = new THREE.MeshStandardMaterial({ color: 0x2d5a27, roughness: 0.8, side: THREE.DoubleSide });
+  return { mat };
 }
 
-function renderAll() {
-  renderLinen();
-  renderChairs();
-  renderPlaceSettings();
-  renderCenterpiece();
-  renderSummary();
+function buildCenterpiece() {
+  const g = new THREE.Group();
+  const type = state.flowerType;
+  const color = state.flower.color;
+
+  if (type.includes('Float')) {
+    // Silver water bowl + floating roses
+    const bowlGeo = new THREE.CylinderGeometry(0.22, 0.16, 0.09, 32);
+    const bowlMat = new THREE.MeshPhysicalMaterial({
+      color: 0xc9c9c9, roughness: 0.15, metalness: 0.9, clearcoat: 0.4
+    });
+    const bowl = new THREE.Mesh(bowlGeo, bowlMat);
+    bowl.position.y = TABLE_TOP_Y + 0.045;
+    bowl.castShadow = true;
+    g.add(bowl);
+    // Water
+    const waterGeo = new THREE.CylinderGeometry(0.215, 0.215, 0.01, 32);
+    const waterMat = new THREE.MeshPhysicalMaterial({
+      color: 0x557799, roughness: 0.02, metalness: 0,
+      transmission: 0.8, thickness: 0.2, ior: 1.33, transparent: true, opacity: 0.85
+    });
+    const water = new THREE.Mesh(waterGeo, waterMat);
+    water.position.y = TABLE_TOP_Y + 0.085;
+    g.add(water);
+    // 4 floating roses + candles
+    for (let i = 0; i < 4; i++) {
+      const a = (i/4) * Math.PI * 2;
+      const rose = rose3D(color, 0.06);
+      rose.position.set(Math.cos(a) * 0.11, TABLE_TOP_Y + 0.09, Math.sin(a) * 0.11);
+      rose.scale.y = 0.5;
+      g.add(rose);
+    }
+    // Floating petals
+    for (let i = 0; i < 8; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const r = 0.05 + Math.random() * 0.14;
+      const petalGeo = new THREE.SphereGeometry(0.015, 8, 5);
+      const petal = new THREE.Mesh(petalGeo, new THREE.MeshStandardMaterial({ color }));
+      petal.scale.set(1.4, 0.2, 0.8);
+      petal.position.set(Math.cos(a) * r, TABLE_TOP_Y + 0.088, Math.sin(a) * r);
+      petal.rotation.y = Math.random() * Math.PI;
+      g.add(petal);
+    }
+  } else if (type.includes('Hydrangea')) {
+    // Tall crystal/glass pedestal
+    const pedGeo = new THREE.CylinderGeometry(0.06, 0.09, 0.35, 24);
+    const pedMat = makeGlassMaterial();
+    const ped = new THREE.Mesh(pedGeo, pedMat);
+    ped.position.y = TABLE_TOP_Y + 0.18;
+    g.add(ped);
+    // Dome cluster on top
+    const cluster = new THREE.Group();
+    const baseGeo = new THREE.SphereGeometry(0.14, 20, 14);
+    const baseMat = new THREE.MeshStandardMaterial({ color: 0x2d5a27, roughness: 0.8 });
+    const base = new THREE.Mesh(baseGeo, baseMat);
+    cluster.add(base);
+    // Florets on upper hemisphere
+    for (let i = 0; i < 90; i++) {
+      const phi = Math.acos(1 - Math.random() * 1.3);
+      const theta = Math.random() * Math.PI * 2;
+      const r = 0.145;
+      const floret = hydrangeaFloret(color, 0.04 + Math.random() * 0.015);
+      const x = r * Math.sin(phi) * Math.cos(theta);
+      const y = r * Math.cos(phi);
+      const z = r * Math.sin(phi) * Math.sin(theta);
+      floret.position.set(x, y, z);
+      floret.lookAt(x*3, y*3, z*3);
+      cluster.add(floret);
+    }
+    cluster.position.y = TABLE_TOP_Y + 0.4;
+    g.add(cluster);
+  } else if (type.includes('Mokara')) {
+    // Tall gold vase + orchid sprays
+    const vaseGeo = new THREE.CylinderGeometry(0.07, 0.05, 0.32, 24);
+    const vaseMat = makeGoldMetal();
+    const vase = new THREE.Mesh(vaseGeo, vaseMat);
+    vase.position.y = TABLE_TOP_Y + 0.16;
+    vase.castShadow = true;
+    g.add(vase);
+    // Multiple stems radiating
+    for (let i = 0; i < 7; i++) {
+      const a = (i/7) * Math.PI * 2;
+      const stem = mokaraStem(color);
+      stem.position.set(Math.cos(a)*0.02, TABLE_TOP_Y + 0.32, Math.sin(a)*0.02);
+      stem.rotation.y = a;
+      stem.rotation.z = 0.25;
+      g.add(stem);
+    }
+    // Few greenery filler leaves
+    const { mat: leafMat } = leafGeometry();
+    for (let i = 0; i < 8; i++) {
+      const a = (i/8) * Math.PI * 2 + 0.2;
+      const lGeo = new THREE.SphereGeometry(0.04, 8, 5);
+      const leaf = new THREE.Mesh(lGeo, leafMat);
+      leaf.scale.set(2.5, 0.3, 0.8);
+      leaf.position.set(Math.cos(a)*0.06, TABLE_TOP_Y + 0.33, Math.sin(a)*0.06);
+      leaf.rotation.y = a;
+      leaf.rotation.z = 0.4;
+      g.add(leaf);
+    }
+  } else {
+    // Rose bouquet in crystal footed bowl
+    const footGeo = new THREE.CylinderGeometry(0.08, 0.1, 0.04, 24);
+    const footMat = makeGlassMaterial();
+    const foot = new THREE.Mesh(footGeo, footMat);
+    foot.position.y = TABLE_TOP_Y + 0.02;
+    g.add(foot);
+    const stemG = new THREE.CylinderGeometry(0.025, 0.025, 0.08, 16);
+    const stem = new THREE.Mesh(stemG, footMat);
+    stem.position.y = TABLE_TOP_Y + 0.06;
+    g.add(stem);
+    const bowlG = new THREE.CylinderGeometry(0.14, 0.09, 0.1, 24);
+    const bowl = new THREE.Mesh(bowlG, footMat);
+    bowl.position.y = TABLE_TOP_Y + 0.15;
+    g.add(bowl);
+    // Greenery in bowl
+    const { mat: leafMat } = leafGeometry();
+    for (let i = 0; i < 10; i++) {
+      const a = (i/10) * Math.PI * 2;
+      const lGeo = new THREE.SphereGeometry(0.035, 8, 5);
+      const leaf = new THREE.Mesh(lGeo, leafMat);
+      leaf.scale.set(2.2, 0.4, 0.8);
+      leaf.position.set(Math.cos(a)*0.08, TABLE_TOP_Y + 0.2, Math.sin(a)*0.08);
+      leaf.rotation.y = a;
+      leaf.rotation.z = 0.5;
+      g.add(leaf);
+    }
+    // Rose dome
+    for (let i = 0; i < 14; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const r = Math.random() * 0.1;
+      const h = 0.21 + Math.random() * 0.04;
+      const rose = rose3D(color, 0.058);
+      rose.position.set(Math.cos(a)*r, TABLE_TOP_Y + h, Math.sin(a)*r);
+      rose.rotation.y = Math.random() * Math.PI * 2;
+      g.add(rose);
+    }
+    // Filler roses at edge (shifted color)
+    const fillerColor = new THREE.Color(color).multiplyScalar(1.2).getHex();
+  }
+
+  return g;
 }
+
+centerpieceGroup = buildCenterpiece();
+scene.add(centerpieceGroup);
+
+// ═══════════════════════════════════════════════════════════
+//  UPDATE FUNCTIONS
+// ═══════════════════════════════════════════════════════════
+function updateLinen() {
+  const newMat = makeLinenMaterial(state.linen);
+  if (linenMat) linenMat.dispose();
+  linenMat = newMat;
+  tableGroup.children.forEach(c => {
+    if (c.name === 'skirt' || c.name === 'top') c.material = linenMat;
+  });
+}
+
+function updateChairs() {
+  const mat = makeFabricMaterial(state.seat.color);
+  chairsGroup.children.forEach(chair => {
+    chair.traverse(obj => {
+      if (obj.isMesh && obj.material && !obj.material.userData.isSash) {
+        // Identify by material vs sash (gold)
+        const col = obj.material.color;
+        if (col && (col.r*255 > 200 && col.g*255 > 150 && col.b*255 < 120 && obj.material.metalness > 0.5)) return;
+        obj.material = mat;
+      }
+    });
+  });
+}
+
+function updatePlatesAndNapkins() {
+  const chargerMat = makePlateMaterial(state.plate.rim, true);
+  const plateMat = makePlateMaterial(state.plate.inner, false);
+  const napkinMat = makeFabricMaterial(state.napkin.color, 0.85);
+
+  placesGroup.children.forEach(ps => {
+    ps.traverse(obj => {
+      if (obj.name === 'charger') obj.material = chargerMat;
+      else if (obj.name === 'plate' || obj.name === 'bowl') obj.material = plateMat;
+    });
+    const napGroup = ps.children.find(c => c.name === 'napkin');
+    if (napGroup) {
+      napGroup.children.forEach(ch => {
+        if (ch.geometry && ch.geometry.type === 'BoxGeometry') ch.material = napkinMat;
+      });
+    }
+  });
+}
+
+function updateNapkinRings() {
+  placesGroup.children.forEach(ps => {
+    const napGroup = ps.children.find(c => c.name === 'napkin');
+    if (!napGroup) return;
+    const ringContainer = napGroup.children.find(c => c.name === 'ringContainer');
+    if (ringContainer) buildNapkinRingInto(ringContainer, state.napkinRing);
+  });
+}
+
+function updateCenterpiece() {
+  scene.remove(centerpieceGroup);
+  centerpieceGroup.traverse(obj => {
+    if (obj.geometry) obj.geometry.dispose();
+    if (obj.material) {
+      if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+      else obj.material.dispose();
+    }
+  });
+  centerpieceGroup = buildCenterpiece();
+  scene.add(centerpieceGroup);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  UI
+// ═══════════════════════════════════════════════════════════
+function colorToHex(c) { return '#' + c.toString(16).padStart(6,'0'); }
 
 function renderSummary() {
   const grid = document.getElementById('summary-grid');
   const items = [
-    { label:'桌布 Linen', value: state.linen.label.split('\n')[0], color: state.linen.bg },
-    { label:'椅套 Seat', value: state.seat.label.split('\n')[0], color: state.seat.color },
-    { label:'展示盘 Plate', value: state.plate.label.split('\n')[0], color: state.plate.rim },
-    { label:'餐巾 Napkin', value: state.napkin.label.split('\n')[0], color: state.napkin.color },
-    { label:'桌花 Centerpiece', value: `${state.flowerType.split(' ')[0]} · ${state.flower.label.split('\n')[0]}`, color: state.flower.color },
+    { label:'桌布 Linen', value: state.linen.label.split('\n')[0], color: colorToHex(state.linen.bg) },
+    { label:'椅套 Seat', value: state.seat.label.split('\n')[0], color: colorToHex(state.seat.color) },
+    { label:'展示盘 Plate', value: state.plate.label.split('\n')[0], color: colorToHex(state.plate.rim) },
+    { label:'餐巾 Napkin', value: state.napkin.label.split('\n')[0], color: colorToHex(state.napkin.color) },
+    { label:'餐巾环 Ring', value: state.napkinRing.label.split('\n')[0], color: colorToHex(state.napkinRing.metal) },
+    { label:'桌花 Centerpiece', value: `${state.flowerType.split(' ')[0]} · ${state.flower.label.split('\n')[0]}`, color: colorToHex(state.flower.color) },
   ];
   grid.innerHTML = items.map(it => `
     <div class="summary-item">
@@ -782,114 +1213,6 @@ function renderSummary() {
       </div>
     </div>
   `).join('');
-}
-
-// ═══════════════════════════════════════════════════════════
-//  UI BUILDERS
-// ═══════════════════════════════════════════════════════════
-function buildLinenSwatches() {
-  const grid = document.getElementById('linen-grid');
-  DATA.linen.forEach(item => {
-    const sw = createSwatch(item, () => {
-      state.linen = item; renderLinen(); renderSummary();
-      activateSwatch('linen-grid', item.id);
-    });
-    if (item.type === 'organza') {
-      sw.querySelector('.swatch-color').style.background =
-        `linear-gradient(135deg, ${item.shimmer} 0%, ${item.bg} 40%, ${item.shimmer} 70%, ${item.bg} 100%)`;
-    } else {
-      sw.querySelector('.swatch-color').style.background =
-        `repeating-linear-gradient(45deg, ${item.bg}, ${item.bg} 4px, ${item.shimmer} 4px, ${item.shimmer} 8px)`;
-    }
-    sw.id = 'sw-' + item.id;
-    if (item.id === state.linen.id) sw.classList.add('active');
-    grid.appendChild(sw);
-  });
-}
-
-function buildSeatSwatches() {
-  const grid = document.getElementById('seat-grid');
-  DATA.seat.forEach(item => {
-    const sw = createSwatch(item, () => {
-      state.seat = item; renderChairs(); renderSummary();
-      activateSwatch('seat-grid', item.id);
-    });
-    sw.querySelector('.swatch-color').style.background = item.color;
-    sw.id = 'sw-' + item.id;
-    if (item.id === state.seat.id) sw.classList.add('active');
-    grid.appendChild(sw);
-  });
-}
-
-function buildPlateSwatches() {
-  const grid = document.getElementById('plate-grid');
-  DATA.plate.forEach(item => {
-    const sw = createSwatch(item, () => {
-      state.plate = item; renderPlaceSettings(); renderSummary();
-      activateSwatch('plate-grid', item.id);
-    });
-    const sc = sw.querySelector('.swatch-color');
-    sc.style.background = item.inner;
-    const rimDiv = document.createElement('div');
-    rimDiv.style.cssText = `position:absolute;inset:0;border:5px solid ${item.rim};border-radius:50%;margin:6px;`;
-    sc.appendChild(rimDiv);
-    sw.id = 'sw-' + item.id;
-    if (item.id === state.plate.id) sw.classList.add('active');
-    grid.appendChild(sw);
-  });
-}
-
-function buildNapkinSwatches() {
-  const grid = document.getElementById('napkin-grid');
-  DATA.napkin.forEach(item => {
-    const sw = createSwatch(item, () => {
-      state.napkin = item; renderPlaceSettings(); renderSummary();
-      activateSwatch('napkin-grid', item.id);
-    });
-    sw.querySelector('.swatch-color').style.background = item.color;
-    sw.id = 'sw-' + item.id;
-    if (item.id === state.napkin.id) sw.classList.add('active');
-    grid.appendChild(sw);
-  });
-}
-
-function buildFlowerUI() {
-  const tabsEl = document.getElementById('flower-tabs');
-  const container = document.getElementById('flower-color-container');
-
-  Object.keys(DATA.flowers).forEach(type => {
-    const tab = document.createElement('div');
-    tab.className = 'ftab' + (type === state.flowerType ? ' active' : '');
-    tab.textContent = type;
-    tab.addEventListener('click', () => {
-      state.flowerType = type;
-      document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      document.querySelectorAll('.flower-colors').forEach(d => d.classList.remove('visible'));
-      document.getElementById('fc-' + type.replace(/\s/g,'_')).classList.add('visible');
-    });
-    tabsEl.appendChild(tab);
-
-    // Color swatches for this type
-    const colDiv = document.createElement('div');
-    colDiv.id = 'fc-' + type.replace(/\s/g,'_');
-    colDiv.className = 'flower-colors' + (type === state.flowerType ? ' visible' : '');
-    DATA.flowers[type].forEach(item => {
-      const sw = createSwatch(item, () => {
-        state.flower = item;
-        state.flowerType = type;
-        renderCenterpiece(); renderSummary();
-        document.querySelectorAll('.flower-swatch').forEach(s => s.classList.remove('active'));
-        sw.classList.add('active');
-      });
-      sw.querySelector('.swatch-color').style.background = item.color;
-      sw.classList.add('flower-swatch');
-      sw.id = 'sw-' + item.id;
-      if (item.id === state.flower.id) sw.classList.add('active');
-      colDiv.appendChild(sw);
-    });
-    container.appendChild(colDiv);
-  });
 }
 
 function createSwatch(item, onClick) {
@@ -911,6 +1234,169 @@ function activateSwatch(gridId, itemId) {
   if (target) target.classList.add('active');
 }
 
+function buildLinenSwatches() {
+  const grid = document.getElementById('linen-grid');
+  DATA.linen.forEach(item => {
+    const sw = createSwatch(item, () => {
+      state.linen = item; updateLinen(); renderSummary();
+      activateSwatch('linen-grid', item.id);
+    });
+    const bg = colorToHex(item.bg);
+    const shim = colorToHex(item.shimmer);
+    if (item.type === 'organza') {
+      sw.querySelector('.swatch-color').style.background =
+        `linear-gradient(135deg, ${shim} 0%, ${bg} 40%, ${shim} 70%, ${bg} 100%)`;
+    } else if (item.type === 'brocade') {
+      sw.querySelector('.swatch-color').style.background =
+        `repeating-linear-gradient(45deg, ${bg}, ${bg} 4px, ${shim} 4px, ${shim} 8px)`;
+    } else {
+      // solid satin
+      sw.querySelector('.swatch-color').style.background =
+        `radial-gradient(ellipse at 35% 30%, ${shim} 0%, ${bg} 60%, ${bg} 100%)`;
+    }
+    sw.id = 'sw-' + item.id;
+    if (item.id === state.linen.id) sw.classList.add('active');
+    grid.appendChild(sw);
+  });
+}
+
+function buildSeatSwatches() {
+  const grid = document.getElementById('seat-grid');
+  DATA.seat.forEach(item => {
+    const sw = createSwatch(item, () => {
+      state.seat = item; updateChairs(); renderSummary();
+      activateSwatch('seat-grid', item.id);
+    });
+    sw.querySelector('.swatch-color').style.background = colorToHex(item.color);
+    sw.id = 'sw-' + item.id;
+    if (item.id === state.seat.id) sw.classList.add('active');
+    grid.appendChild(sw);
+  });
+}
+
+function buildPlateSwatches() {
+  const grid = document.getElementById('plate-grid');
+  DATA.plate.forEach(item => {
+    const sw = createSwatch(item, () => {
+      state.plate = item; updatePlatesAndNapkins(); renderSummary();
+      activateSwatch('plate-grid', item.id);
+    });
+    const sc = sw.querySelector('.swatch-color');
+    sc.style.background = colorToHex(item.inner);
+    const rimDiv = document.createElement('div');
+    rimDiv.style.cssText = `position:absolute;inset:0;border:5px solid ${colorToHex(item.rim)};border-radius:50%;margin:6px;`;
+    sc.appendChild(rimDiv);
+    sw.id = 'sw-' + item.id;
+    if (item.id === state.plate.id) sw.classList.add('active');
+    grid.appendChild(sw);
+  });
+}
+
+function buildNapkinSwatches() {
+  const grid = document.getElementById('napkin-grid');
+  DATA.napkin.forEach(item => {
+    const sw = createSwatch(item, () => {
+      state.napkin = item; updatePlatesAndNapkins(); renderSummary();
+      activateSwatch('napkin-grid', item.id);
+    });
+    sw.querySelector('.swatch-color').style.background = colorToHex(item.color);
+    sw.id = 'sw-' + item.id;
+    if (item.id === state.napkin.id) sw.classList.add('active');
+    grid.appendChild(sw);
+  });
+}
+
+function buildNapkinRingSwatches() {
+  const grid = document.getElementById('ring-grid');
+  DATA.napkinRing.forEach(item => {
+    const sw = createSwatch(item, () => {
+      state.napkinRing = item; updateNapkinRings(); renderSummary();
+      activateSwatch('ring-grid', item.id);
+    });
+    const sc = sw.querySelector('.swatch-color');
+    const metal = colorToHex(item.metal);
+    const accent = colorToHex(item.accent);
+    if (item.style === 'pearl') {
+      sc.style.background = `radial-gradient(circle at 30% 40%, ${accent} 0%, ${accent} 8%, ${metal} 20%, ${metal} 100%)`;
+    } else if (item.style === 'cube') {
+      sc.style.background = `linear-gradient(135deg, ${metal} 0%, ${metal} 40%, ${accent} 50%, ${metal} 60%, ${metal} 100%)`;
+    } else {
+      sc.style.background = `conic-gradient(from 45deg, ${metal}, ${accent}, ${metal}, ${accent}, ${metal})`;
+    }
+    sw.id = 'sw-' + item.id;
+    if (item.id === state.napkinRing.id) sw.classList.add('active');
+    grid.appendChild(sw);
+  });
+}
+
+function buildFlowerUI() {
+  const tabsEl = document.getElementById('flower-tabs');
+  const container = document.getElementById('flower-color-container');
+  Object.keys(DATA.flowers).forEach(type => {
+    const tab = document.createElement('div');
+    tab.className = 'ftab' + (type === state.flowerType ? ' active' : '');
+    tab.textContent = type;
+    tab.addEventListener('click', () => {
+      state.flowerType = type;
+      state.flower = DATA.flowers[type][0];
+      updateCenterpiece(); renderSummary();
+      document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.flower-colors').forEach(d => d.classList.remove('visible'));
+      document.getElementById('fc-' + type.replace(/\s/g,'_')).classList.add('visible');
+      document.querySelectorAll('.flower-swatch').forEach(s => s.classList.remove('active'));
+      const first = document.getElementById('sw-' + state.flower.id);
+      if (first) first.classList.add('active');
+    });
+    tabsEl.appendChild(tab);
+
+    const colDiv = document.createElement('div');
+    colDiv.id = 'fc-' + type.replace(/\s/g,'_');
+    colDiv.className = 'flower-colors' + (type === state.flowerType ? ' visible' : '');
+    DATA.flowers[type].forEach(item => {
+      const sw = createSwatch(item, () => {
+        state.flower = item;
+        state.flowerType = type;
+        updateCenterpiece(); renderSummary();
+        document.querySelectorAll('.flower-swatch').forEach(s => s.classList.remove('active'));
+        sw.classList.add('active');
+      });
+      sw.querySelector('.swatch-color').style.background = colorToHex(item.color);
+      sw.classList.add('flower-swatch');
+      sw.id = 'sw-' + item.id;
+      if (item.id === state.flower.id) sw.classList.add('active');
+      colDiv.appendChild(sw);
+    });
+    container.appendChild(colDiv);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RESIZE + RENDER LOOP
+// ═══════════════════════════════════════════════════════════
+function resize() {
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+}
+window.addEventListener('resize', resize);
+resize();
+
+let userInteracted = false;
+controls.addEventListener('start', () => {
+  userInteracted = true;
+  controls.autoRotate = false;
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
 // ═══════════════════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════════════════
@@ -918,8 +1404,13 @@ buildLinenSwatches();
 buildSeatSwatches();
 buildPlateSwatches();
 buildNapkinSwatches();
+buildNapkinRingSwatches();
 buildFlowerUI();
-renderAll();
+renderSummary();
+
+setTimeout(() => {
+  document.getElementById('loading').classList.add('hidden');
+}, 300);
 </script>
 </body>
 </html>
