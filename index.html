@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>黄浦香港联谊会宴会桌型配置器</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-dim: #8B6914;
+    --ink: #0E0D0B;
+    --charcoal: #1A1916;
+    --panel: #141310;
+    --surface: #1F1D19;
+    --border: rgba(201,168,76,0.18);
+    --text: #F0EAD6;
+    --muted: #8A8070;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--ink);
+    color: var(--text);
+    font-family: 'Noto Serif SC', 'Cormorant Garamond', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Header ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 22px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(180deg, rgba(201,168,76,0.06) 0%, transparent 100%);
+  }
+  .logo {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .logo span { color: var(--muted); }
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    color: var(--text);
+    text-align: center;
+  }
+  h1 small { display: block; font-family: 'Noto Serif SC'; font-size: 11px; letter-spacing: 0.15em; color: var(--muted); margin-top: 3px; }
+
+  /* ── Layout ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    min-height: calc(100vh - 69px);
+  }
+
+  /* ── Left Panel ── */
+  .left-panel {
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 28px 24px;
+  }
+  .left-panel::-webkit-scrollbar { width: 4px; }
+  .left-panel::-webkit-scrollbar-track { background: transparent; }
+  .left-panel::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+  .section {
+    margin-bottom: 30px;
+  }
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Swatch Grid */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+    gap: 8px;
+  }
+  .swatch {
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1.5px solid transparent;
+    overflow: hidden;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .swatch:hover { border-color: var(--gold-dim); transform: translateY(-1px); }
+  .swatch.active { border-color: var(--gold); box-shadow: 0 0 10px rgba(201,168,76,0.35); }
+  .swatch-color {
+    height: 42px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .swatch-label {
+    background: rgba(14,13,11,0.85);
+    padding: 4px 5px;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.3;
+  }
+  .swatch.active .swatch-label { color: var(--gold-light); }
+  .check-mark {
+    display: none;
+    position: absolute;
+    top: 3px; right: 3px;
+    background: var(--gold);
+    color: var(--ink);
+    border-radius: 50%;
+    width: 14px; height: 14px;
+    font-size: 9px;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+  .swatch.active .check-mark { display: flex; }
+
+  /* Flower sub-selector */
+  .flower-type-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .ftab {
+    padding: 4px 11px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 10px;
+    cursor: pointer;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    transition: all 0.2s;
+    background: transparent;
+  }
+  .ftab:hover { border-color: var(--gold-dim); color: var(--text); }
+  .ftab.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+  .flower-colors { display: none; }
+  .flower-colors.visible { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 6px; }
+
+  /* ── Right Panel ── */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 36px 40px;
+    background: var(--charcoal);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Ambient glow */
+  .right-panel::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: 50%;
+    transform: translateX(-50%);
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .preview-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+
+  /* SVG Table */
+  #table-svg {
+    width: min(520px, 100%);
+    height: min(520px, 100vw - 380px);
+    filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6));
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+
+  /* Summary card */
+  .summary-card {
+    margin-top: 28px;
+    width: min(520px, 100%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+  }
+  .summary-title {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+  }
+  .summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .summary-item-label {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .summary-item-value {
+    font-size: 13px;
+    color: var(--text);
+    font-style: italic;
+  }
+  .summary-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
+  /* Shimmer keyframes for organza */
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 0.85; }
+  }
+  @keyframes shimmerG {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes floatPetal {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-2px) rotate(4deg); }
+  }
+
+  /* Linen gradient definitions injected via JS into SVG defs */
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Grand Ballroom <span>· 宴会厅</span></div>
+  <h1>黄浦香港联谊会<small>宴会桌型配置器 · Banquet Table Configurator</small></h1>
+  <div class="logo" style="opacity:0">–</div>
+</header>
+
+<div class="layout">
+
+  <!-- ════ LEFT PANEL ════ -->
+  <div class="left-panel">
+
+    <!-- 1. Table Linen -->
+    <div class="section">
+      <div class="section-title">Table Linen</div>
+      <div class="section-subtitle">桌布选择</div>
+      <div class="swatch-grid" id="linen-grid"></div>
+    </div>
+
+    <!-- 2. Seat Cover -->
+    <div class="section">
+      <div class="section-title">Seat Cover</div>
+      <div class="section-subtitle">椅套选择</div>
+      <div class="swatch-grid" id="seat-grid"></div>
+    </div>
+
+    <!-- 3. Show Plate -->
+    <div class="section">
+      <div class="section-title">Show Plate</div>
+      <div class="section-subtitle">展示盘</div>
+      <div class="swatch-grid" id="plate-grid"></div>
+    </div>
+
+    <!-- 4. Napkin -->
+    <div class="section">
+      <div class="section-title">Napkin</div>
+      <div class="section-subtitle">餐巾</div>
+      <div class="swatch-grid" id="napkin-grid"></div>
+    </div>
+
+    <!-- 5. Centerpiece -->
+    <div class="section">
+      <div class="section-title">Centerpiece</div>
+      <div class="section-subtitle">桌花摆设</div>
+      <div class="flower-type-tabs" id="flower-tabs"></div>
+      <div id="flower-color-container"></div>
+    </div>
+
+  </div>
+
+  <!-- ════ RIGHT PANEL ════ -->
+  <div class="right-panel">
+    <div class="preview-label">实时预览 · Live Preview</div>
+
+    <svg id="table-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+      <defs id="svg-defs">
+        <!-- Dynamic gradients injected here -->
+      </defs>
+
+      <!-- Room floor -->
+      <rect width="500" height="500" fill="#1a1916"/>
+      <!-- Subtle parquet texture lines -->
+      <g stroke="rgba(255,255,255,0.03)" stroke-width="1">
+        <line x1="0" y1="50" x2="500" y2="50"/>
+        <line x1="0" y1="100" x2="500" y2="100"/>
+        <line x1="0" y1="150" x2="500" y2="150"/>
+        <line x1="0" y1="200" x2="500" y2="200"/>
+        <line x1="0" y1="250" x2="500" y2="250"/>
+        <line x1="0" y1="300" x2="500" y2="300"/>
+        <line x1="0" y1="350" x2="500" y2="350"/>
+        <line x1="0" y1="400" x2="500" y2="400"/>
+        <line x1="0" y1="450" x2="500" y2="450"/>
+        <line x1="50" y1="0" x2="50" y2="500"/>
+        <line x1="100" y1="0" x2="100" y2="500"/>
+        <line x1="150" y1="0" x2="150" y2="500"/>
+        <line x1="200" y1="0" x2="200" y2="500"/>
+        <line x1="250" y1="0" x2="250" y2="500"/>
+        <line x1="300" y1="0" x2="300" y2="500"/>
+        <line x1="350" y1="0" x2="350" y2="500"/>
+        <line x1="400" y1="0" x2="400" y2="500"/>
+        <line x1="450" y1="0" x2="450" y2="500"/>
+      </g>
+
+      <!-- Chairs group (rendered behind table) -->
+      <g id="chairs-group"></g>
+
+      <!-- Table shadow -->
+      <ellipse cx="250" cy="258" rx="168" ry="22" fill="rgba(0,0,0,0.45)"/>
+
+      <!-- Table surface -->
+      <circle id="table-cloth" cx="250" cy="250" r="165" fill="#C9A84C"/>
+
+      <!-- Organza shimmer overlay -->
+      <circle id="shimmer-overlay" cx="250" cy="250" r="165" fill="url(#shimmerGrad)" opacity="0.45" style="pointer-events:none"/>
+
+      <!-- Table edge highlight -->
+      <circle cx="250" cy="250" r="165" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+      <circle cx="250" cy="250" r="157" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+
+      <!-- Place settings group -->
+      <g id="places-group"></g>
+
+      <!-- Centerpiece -->
+      <g id="centerpiece-group"></g>
+
+      <!-- Gold rim ring on table edge -->
+      <circle cx="250" cy="250" r="163" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="2"/>
+
+    </svg>
+
+    <!-- Summary -->
+    <div class="summary-card">
+      <div class="summary-title">当前配置 · Current Selection</div>
+      <div class="summary-grid" id="summary-grid"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════════════════
+const DATA = {
+  linen: [
+    { id:'purple-organza',    label:'Purple Organza\n紫色',     bg:'#7B5EA7', shimmer:'#C9B3E8', type:'organza' },
+    { id:'silver-organza',    label:'Silver Organza\n银色',     bg:'#A8ADB6', shimmer:'#E8EBF0', type:'organza' },
+    { id:'gold-organza',      label:'Gold Organza\n金色',       bg:'#C9A84C', shimmer:'#F0D97A', type:'organza' },
+    { id:'champagne-pattern', label:'Champagne\n香槟花纹',      bg:'#D4B896', shimmer:'#F5E8D4', type:'brocade' },
+  ],
+  seat: [
+    { id:'white-spandex', label:'White Spandex\n白色弹力', color:'#F5F0E8' },
+    { id:'gold-crepe',    label:'Gold Crepe\n金色皱纹',    color:'#C9A84C' },
+    { id:'purple',        label:'Purple\n紫色',             color:'#6B4A8C' },
+    { id:'burgundy',      label:'Burgundy\n酒红',           color:'#6B2737' },
+    { id:'silver-crepe',  label:'Silver Crepe\n银色皱纹',   color:'#A8AEBB' },
+  ],
+  plate: [
+    { id:'plate-red',   label:'Red\n红色',      rim:'#C0392B', inner:'#F8F4EE' },
+    { id:'plate-gold',  label:'Gold Rim\n金边', rim:'#C9A84C', inner:'#FDFAF4' },
+    { id:'plate-beige', label:'Beige Trim\n米边',rim:'#C4A882', inner:'#FBF8F2' },
+    { id:'plate-silver',label:'Silver\n银色',   rim:'#A8ADB6', inner:'#FAFAFA' },
+  ],
+  napkin: [
+    { id:'napkin-goldpearl',  label:'Gold Pearl\n金珍珠',    color:'#C9A84C' },
+    { id:'napkin-whitegold',  label:'White Gold\n白金',       color:'#E8E0CC' },
+    { id:'napkin-silver',     label:'Silver Knot\n银结',      color:'#B0B8C4' },
+    { id:'napkin-ivory',      label:'Ivory\n象牙白',          color:'#F5F0E0' },
+    { id:'napkin-white',      label:'White\n白色',            color:'#FFFFFF' },
+    { id:'napkin-burgundy',   label:'Burgundy\n酒红',         color:'#7B2538' },
+  ],
+  flowers: {
+    'Mokara 莫卡拉': [
+      { id:'mok-red',    label:'Red\n红',      color:'#C0392B' },
+      { id:'mok-pink',   label:'Pink\n粉',     color:'#E87CA0' },
+      { id:'mok-purple', label:'Purple\n紫',   color:'#8E44AD' },
+      { id:'mok-yellow', label:'Yellow\n黄',   color:'#F1C40F' },
+      { id:'mok-orange', label:'Orange\n橙',   color:'#E67E22' },
+    ],
+    'Hydrangea 绣球': [
+      { id:'hyd-pink',   label:'Pink\n粉',        color:'#E87CA0' },
+      { id:'hyd-white',  label:'White\n白',        color:'#F2F0EC' },
+      { id:'hyd-blue',   label:'Blue\n蓝',         color:'#4A90D9' },
+      { id:'hyd-lpurple',label:'Light Purple\n浅紫',color:'#B39DDB' },
+    ],
+    'Rose 玫瑰': [
+      { id:'ros-red',    label:'Red\n红',           color:'#C0392B' },
+      { id:'ros-pink',   label:'Pink\n粉',          color:'#E87CA0' },
+      { id:'ros-white',  label:'White\n白',         color:'#F2F0EC' },
+      { id:'ros-yellow', label:'Yellow\n黄',        color:'#F1C40F' },
+      { id:'ros-champ',  label:'Champagne\n香槟',   color:'#D4B896' },
+      { id:'ros-lpurple',label:'Light Purple\n浅紫',color:'#CE93D8' },
+    ],
+    'Rose Float 浮玫瑰': [
+      { id:'rosf-red',   label:'Red\n红',     color:'#C0392B' },
+      { id:'rosf-pink',  label:'Pink\n粉',    color:'#E87CA0' },
+      { id:'rosf-white', label:'White\n白',   color:'#F2F0EC' },
+      { id:'rosf-yellow',label:'Yellow\n黄',  color:'#F1C40F' },
+      { id:'rosf-champ', label:'Champagne\n香槟',color:'#D4B896' },
+    ],
+  }
+};
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+const state = {
+  linen: DATA.linen[2],       // gold organza default
+  seat:  DATA.seat[0],        // white spandex
+  plate: DATA.plate[1],       // gold rim
+  napkin: DATA.napkin[0],     // gold pearl
+  flower: DATA.flowers['Rose 玫瑰'][0],  // rose red
+  flowerType: 'Rose 玫瑰',
+};
+
+// ═══════════════════════════════════════════════════════════
+//  GEOMETRY — 8 place settings at equal angles
+// ═══════════════════════════════════════════════════════════
+const CX = 250, CY = 250, TABLE_R = 165;
+const SEAT_R = 195; // chair center distance
+const PLACE_R = 138; // place setting center distance
+const N = 8;
+
+function polar(cx, cy, r, angleDeg) {
+  const a = (angleDeg - 90) * Math.PI / 180;
+  return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SVG HELPERS
+// ═══════════════════════════════════════════════════════════
+function svgEl(tag, attrs) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+function clearEl(id) { document.getElementById(id).innerHTML = ''; }
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER FUNCTIONS
+// ═══════════════════════════════════════════════════════════
+
+function renderLinen() {
+  const l = state.linen;
+  const cloth = document.getElementById('table-cloth');
+  const overlay = document.getElementById('shimmer-overlay');
+  const defs = document.getElementById('svg-defs');
+
+  cloth.setAttribute('fill', l.bg);
+
+  // Update shimmer gradient
+  let shimmerGrad = document.getElementById('shimmerGrad');
+  if (!shimmerGrad) {
+    shimmerGrad = svgEl('radialGradient', { id:'shimmerGrad', cx:'40%', cy:'35%', r:'70%' });
+    defs.appendChild(shimmerGrad);
+  }
+  shimmerGrad.innerHTML = `
+    <stop offset="0%" stop-color="${l.shimmer}" stop-opacity="0.7"/>
+    <stop offset="60%" stop-color="${l.shimmer}" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="${l.bg}" stop-opacity="0"/>
+  `;
+
+  if (l.type === 'brocade') {
+    // Champagne brocade: add subtle pattern overlay
+    let brocade = document.getElementById('brocade-overlay');
+    if (!brocade) {
+      brocade = svgEl('circle', { id:'brocade-overlay', cx:'250', cy:'250', r:'165', fill:'url(#brocadePat)', opacity:'0.18' });
+      overlay.parentNode.insertBefore(brocade, overlay);
+      const pat = svgEl('pattern', { id:'brocadePat', patternUnits:'userSpaceOnUse', width:'20', height:'20' });
+      pat.innerHTML = `<path d="M10 0 Q15 5 10 10 Q5 15 10 20" fill="none" stroke="#8B6914" stroke-width="0.8" opacity="0.6"/>
+                       <path d="M0 10 Q5 5 10 10 Q15 5 20 10" fill="none" stroke="#8B6914" stroke-width="0.8" opacity="0.6"/>`;
+      defs.appendChild(pat);
+    }
+    brocade.style.display = '';
+  } else {
+    const b = document.getElementById('brocade-overlay');
+    if (b) b.style.display = 'none';
+  }
+  overlay.setAttribute('fill', 'url(#shimmerGrad)');
+}
+
+function renderChairs() {
+  const g = document.getElementById('chairs-group');
+  g.innerHTML = '';
+  const color = state.seat.color;
+
+  for (let i = 0; i < N; i++) {
+    const angle = (i / N) * 360;
+    const pos = polar(CX, CY, SEAT_R, angle);
+    const back_pos = polar(CX, CY, SEAT_R + 18, angle);
+
+    const chairG = svgEl('g', { transform: `rotate(${angle}, ${pos.x}, ${pos.y})` });
+
+    // Chair seat
+    const seat = svgEl('ellipse', {
+      cx: pos.x, cy: pos.y, rx: '18', ry: '14',
+      fill: color,
+      stroke: 'rgba(0,0,0,0.3)', 'stroke-width': '1'
+    });
+    // Chair back
+    const back = svgEl('rect', {
+      x: pos.x - 14, y: pos.y - 30,
+      width: '28', height: '12', rx: '4',
+      fill: color,
+      stroke: 'rgba(0,0,0,0.3)', 'stroke-width': '1'
+    });
+    // Highlight on back
+    const hl = svgEl('rect', {
+      x: pos.x - 10, y: pos.y - 28,
+      width: '20', height: '3', rx: '1.5',
+      fill: 'rgba(255,255,255,0.18)'
+    });
+    chairG.appendChild(seat);
+    chairG.appendChild(back);
+    chairG.appendChild(hl);
+    g.appendChild(chairG);
+  }
+}
+
+function renderPlaceSettings() {
+  const g = document.getElementById('places-group');
+  g.innerHTML = '';
+  const plate = state.plate;
+  const napkin = state.napkin;
+
+  for (let i = 0; i < N; i++) {
+    const angle = (i / N) * 360;
+    const pos = polar(CX, CY, PLACE_R, angle);
+    const rad = (angle - 90) * Math.PI / 180;
+
+    const pg = svgEl('g', {});
+
+    // Show plate - outer rim
+    const plateOuter = svgEl('circle', {
+      cx: pos.x, cy: pos.y, r: '16',
+      fill: plate.rim,
+      stroke: 'rgba(0,0,0,0.2)', 'stroke-width': '0.5'
+    });
+    // Show plate - inner
+    const plateInner = svgEl('circle', {
+      cx: pos.x, cy: pos.y, r: '12',
+      fill: plate.inner,
+      stroke: 'rgba(0,0,0,0.08)', 'stroke-width': '0.5'
+    });
+    // Plate highlight
+    const plateHL = svgEl('circle', {
+      cx: pos.x - 3, cy: pos.y - 3, r: '4',
+      fill: 'rgba(255,255,255,0.15)'
+    });
+
+    // Napkin - offset to the right of plate (tangentially)
+    const napkAngle = angle + 90;
+    const napkRad = napkAngle * Math.PI / 180;
+    const napkX = pos.x + Math.cos(napkRad) * 22;
+    const napkY = pos.y + Math.sin(napkRad) * 22;
+
+    const napkG = svgEl('g', { transform: `rotate(${angle}, ${napkX}, ${napkY})` });
+    const napkRect = svgEl('rect', {
+      x: napkX - 5, y: napkY - 7, width: '10', height: '14', rx: '2',
+      fill: napkin.color,
+      stroke: 'rgba(0,0,0,0.2)', 'stroke-width': '0.5'
+    });
+    const napkFold = svgEl('line', {
+      x1: napkX - 5, y1: napkY, x2: napkX + 5, y2: napkY,
+      stroke: 'rgba(0,0,0,0.1)', 'stroke-width': '0.5'
+    });
+    napkG.appendChild(napkRect);
+    napkG.appendChild(napkFold);
+
+    pg.appendChild(plateOuter);
+    pg.appendChild(plateInner);
+    pg.appendChild(plateHL);
+    pg.appendChild(napkG);
+    g.appendChild(pg);
+  }
+}
+
+function renderCenterpiece() {
+  const g = document.getElementById('centerpiece-group');
+  g.innerHTML = '';
+  const f = state.flower;
+  const isFloat = state.flowerType.includes('Float');
+  const color = f.color;
+  const colorDark = shadeColor(color, -25);
+  const colorLight = shadeColor(color, 20);
+
+  if (isFloat) {
+    // Floating roses: water bowl effect
+    const bowl = svgEl('circle', { cx:'250', cy:'250', r:'32', fill:'rgba(60,90,120,0.35)', stroke:'rgba(255,255,255,0.15)', 'stroke-width':'1.5' });
+    g.appendChild(bowl);
+    const waterHL = svgEl('ellipse', { cx:'242', cy:'243', rx:'12', ry:'7', fill:'rgba(255,255,255,0.1)' });
+    g.appendChild(waterHL);
+    // 3 floating roses
+    const rpositions = [{x:250,y:242},{x:241,y:257},{x:261,y:257}];
+    rpositions.forEach(p => {
+      drawRose(g, p.x, p.y, 9, color, colorDark, colorLight);
+    });
+  } else if (state.flowerType.includes('Hydrangea')) {
+    // Hydrangea: cluster of small 4-petal flowers
+    const stem = svgEl('circle', { cx:'250', cy:'250', r:'35', fill:'rgba(34,60,28,0.4)' });
+    g.appendChild(stem);
+    // Draw many small flowers in a circle
+    for (let i = 0; i < 16; i++) {
+      const a = (i / 16) * 360;
+      const r = 10 + Math.random() * 14;
+      const p = polar(250, 250, r, a);
+      drawSmallFlower(g, p.x, p.y, 5, color, colorLight);
+    }
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * 360;
+      const p = polar(250, 250, 22, a);
+      drawSmallFlower(g, p.x, p.y, 6, color, colorLight);
+    }
+  } else if (state.flowerType.includes('Mokara')) {
+    // Mokara: orchid-style arrangement
+    const vase = svgEl('ellipse', { cx:'250', cy:'260', rx:'14', ry:'8', fill:'rgba(201,168,76,0.4)', stroke:'rgba(201,168,76,0.6)', 'stroke-width':'1' });
+    g.appendChild(vase);
+    for (let i = 0; i < 7; i++) {
+      const a = (i / 7) * 360;
+      const r = 6 + (i % 3) * 8;
+      const p = polar(250, 248, r, a);
+      drawMokaraFlower(g, p.x, p.y, 10, color, colorDark);
+    }
+  } else {
+    // Roses arrangement
+    const vase = svgEl('ellipse', { cx:'250', cy:'258', rx:'16', ry:'9', fill:'rgba(201,168,76,0.4)', stroke:'rgba(201,168,76,0.7)', 'stroke-width':'1.5' });
+    g.appendChild(vase);
+    // Greenery
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * 360;
+      const p = polar(250, 248, 20, a);
+      const leaf = svgEl('ellipse', { cx: p.x, cy: p.y, rx:'5', ry:'3', fill:'#2D5A27', opacity:'0.7',
+        transform: `rotate(${a}, ${p.x}, ${p.y})` });
+      g.appendChild(leaf);
+    }
+    // Roses
+    const rpos = [{x:250,y:240},{x:239,y:250},{x:261,y:250},{x:250,y:258},{x:241,y:262},{x:259,y:262}];
+    rpos.forEach((p,i) => drawRose(g, p.x, p.y, 9 - i*0.5, color, colorDark, colorLight));
+  }
+}
+
+function drawRose(g, cx, cy, r, color, dark, light) {
+  // Simplified rose: concentric petals
+  for (let layer = 0; layer < 3; layer++) {
+    const lr = r - layer * 2.5;
+    for (let p = 0; p < (4 - layer); p++) {
+      const pa = (p / (4 - layer)) * 360 + layer * 22;
+      const px = cx + Math.cos((pa - 90) * Math.PI/180) * lr * 0.5;
+      const py = cy + Math.sin((pa - 90) * Math.PI/180) * lr * 0.5;
+      const petal = svgEl('ellipse', {
+        cx: px, cy: py, rx: lr * 0.55, ry: lr * 0.38,
+        fill: layer === 0 ? color : (layer === 1 ? dark : light),
+        opacity: '0.9',
+        transform: `rotate(${pa}, ${px}, ${py})`
+      });
+      g.appendChild(petal);
+    }
+  }
+  const center = svgEl('circle', { cx, cy, r:'2.5', fill: dark });
+  g.appendChild(center);
+}
+
+function drawSmallFlower(g, cx, cy, r, color, light) {
+  for (let i = 0; i < 4; i++) {
+    const a = i * 90;
+    const px = cx + Math.cos((a-90)*Math.PI/180) * r * 0.6;
+    const py = cy + Math.sin((a-90)*Math.PI/180) * r * 0.6;
+    const p = svgEl('circle', { cx:px, cy:py, r: r*0.55, fill:color, opacity:'0.85' });
+    g.appendChild(p);
+  }
+  const c = svgEl('circle', { cx, cy, r:'2', fill:light });
+  g.appendChild(c);
+}
+
+function drawMokaraFlower(g, cx, cy, r, color, dark) {
+  for (let i = 0; i < 5; i++) {
+    const a = i * 72 - 90;
+    const px = cx + Math.cos(a*Math.PI/180) * r * 0.7;
+    const py = cy + Math.sin(a*Math.PI/180) * r * 0.7;
+    const p = svgEl('ellipse', { cx:px, cy:py, rx:r*0.55, ry:r*0.3, fill:color, opacity:'0.85',
+      transform: `rotate(${a+90}, ${px}, ${py})` });
+    g.appendChild(p);
+  }
+  const c = svgEl('circle', { cx, cy, r:'2.5', fill:dark, opacity:'0.9' });
+  g.appendChild(c);
+}
+
+function shadeColor(hex, pct) {
+  hex = hex.replace('#','');
+  if (hex.length === 3) hex = hex.split('').map(c=>c+c).join('');
+  let r = parseInt(hex.substring(0,2),16);
+  let gg = parseInt(hex.substring(2,4),16);
+  let b = parseInt(hex.substring(4,6),16);
+  r = Math.max(0, Math.min(255, r + Math.round(255 * pct/100)));
+  gg = Math.max(0, Math.min(255, gg + Math.round(255 * pct/100)));
+  b = Math.max(0, Math.min(255, b + Math.round(255 * pct/100)));
+  return `#${r.toString(16).padStart(2,'0')}${gg.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
+}
+
+function renderAll() {
+  renderLinen();
+  renderChairs();
+  renderPlaceSettings();
+  renderCenterpiece();
+  renderSummary();
+}
+
+function renderSummary() {
+  const grid = document.getElementById('summary-grid');
+  const items = [
+    { label:'桌布 Linen', value: state.linen.label.split('\n')[0], color: state.linen.bg },
+    { label:'椅套 Seat', value: state.seat.label.split('\n')[0], color: state.seat.color },
+    { label:'展示盘 Plate', value: state.plate.label.split('\n')[0], color: state.plate.rim },
+    { label:'餐巾 Napkin', value: state.napkin.label.split('\n')[0], color: state.napkin.color },
+    { label:'桌花 Centerpiece', value: `${state.flowerType.split(' ')[0]} · ${state.flower.label.split('\n')[0]}`, color: state.flower.color },
+  ];
+  grid.innerHTML = items.map(it => `
+    <div class="summary-item">
+      <div class="summary-item-label">${it.label}</div>
+      <div class="summary-item-value">
+        <span class="summary-dot" style="background:${it.color};box-shadow:0 0 4px ${it.color}55"></span>${it.value}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  UI BUILDERS
+// ═══════════════════════════════════════════════════════════
+function buildLinenSwatches() {
+  const grid = document.getElementById('linen-grid');
+  DATA.linen.forEach(item => {
+    const sw = createSwatch(item, () => {
+      state.linen = item; renderLinen(); renderSummary();
+      activateSwatch('linen-grid', item.id);
+    });
+    if (item.type === 'organza') {
+      sw.querySelector('.swatch-color').style.background =
+        `linear-gradient(135deg, ${item.shimmer} 0%, ${item.bg} 40%, ${item.shimmer} 70%, ${item.bg} 100%)`;
+    } else {
+      sw.querySelector('.swatch-color').style.background =
+        `repeating-linear-gradient(45deg, ${item.bg}, ${item.bg} 4px, ${item.shimmer} 4px, ${item.shimmer} 8px)`;
+    }
+    sw.id = 'sw-' + item.id;
+    if (item.id === state.linen.id) sw.classList.add('active');
+    grid.appendChild(sw);
+  });
+}
+
+function buildSeatSwatches() {
+  const grid = document.getElementById('seat-grid');
+  DATA.seat.forEach(item => {
+    const sw = createSwatch(item, () => {
+      state.seat = item; renderChairs(); renderSummary();
+      activateSwatch('seat-grid', item.id);
+    });
+    sw.querySelector('.swatch-color').style.background = item.color;
+    sw.id = 'sw-' + item.id;
+    if (item.id === state.seat.id) sw.classList.add('active');
+    grid.appendChild(sw);
+  });
+}
+
+function buildPlateSwatches() {
+  const grid = document.getElementById('plate-grid');
+  DATA.plate.forEach(item => {
+    const sw = createSwatch(item, () => {
+      state.plate = item; renderPlaceSettings(); renderSummary();
+      activateSwatch('plate-grid', item.id);
+    });
+    const sc = sw.querySelector('.swatch-color');
+    sc.style.background = item.inner;
+    const rimDiv = document.createElement('div');
+    rimDiv.style.cssText = `position:absolute;inset:0;border:5px solid ${item.rim};border-radius:50%;margin:6px;`;
+    sc.appendChild(rimDiv);
+    sw.id = 'sw-' + item.id;
+    if (item.id === state.plate.id) sw.classList.add('active');
+    grid.appendChild(sw);
+  });
+}
+
+function buildNapkinSwatches() {
+  const grid = document.getElementById('napkin-grid');
+  DATA.napkin.forEach(item => {
+    const sw = createSwatch(item, () => {
+      state.napkin = item; renderPlaceSettings(); renderSummary();
+      activateSwatch('napkin-grid', item.id);
+    });
+    sw.querySelector('.swatch-color').style.background = item.color;
+    sw.id = 'sw-' + item.id;
+    if (item.id === state.napkin.id) sw.classList.add('active');
+    grid.appendChild(sw);
+  });
+}
+
+function buildFlowerUI() {
+  const tabsEl = document.getElementById('flower-tabs');
+  const container = document.getElementById('flower-color-container');
+
+  Object.keys(DATA.flowers).forEach(type => {
+    const tab = document.createElement('div');
+    tab.className = 'ftab' + (type === state.flowerType ? ' active' : '');
+    tab.textContent = type;
+    tab.addEventListener('click', () => {
+      state.flowerType = type;
+      document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.flower-colors').forEach(d => d.classList.remove('visible'));
+      document.getElementById('fc-' + type.replace(/\s/g,'_')).classList.add('visible');
+    });
+    tabsEl.appendChild(tab);
+
+    // Color swatches for this type
+    const colDiv = document.createElement('div');
+    colDiv.id = 'fc-' + type.replace(/\s/g,'_');
+    colDiv.className = 'flower-colors' + (type === state.flowerType ? ' visible' : '');
+    DATA.flowers[type].forEach(item => {
+      const sw = createSwatch(item, () => {
+        state.flower = item;
+        state.flowerType = type;
+        renderCenterpiece(); renderSummary();
+        document.querySelectorAll('.flower-swatch').forEach(s => s.classList.remove('active'));
+        sw.classList.add('active');
+      });
+      sw.querySelector('.swatch-color').style.background = item.color;
+      sw.classList.add('flower-swatch');
+      sw.id = 'sw-' + item.id;
+      if (item.id === state.flower.id) sw.classList.add('active');
+      colDiv.appendChild(sw);
+    });
+    container.appendChild(colDiv);
+  });
+}
+
+function createSwatch(item, onClick) {
+  const sw = document.createElement('div');
+  sw.className = 'swatch';
+  const lines = item.label.split('\n');
+  sw.innerHTML = `
+    <div class="swatch-color"></div>
+    <div class="swatch-label">${lines[0]}<br><span style="opacity:0.65;font-size:8px">${lines[1]||''}</span></div>
+    <div class="check-mark">✓</div>
+  `;
+  sw.addEventListener('click', onClick);
+  return sw;
+}
+
+function activateSwatch(gridId, itemId) {
+  document.querySelectorAll(`#${gridId} .swatch`).forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('sw-' + itemId);
+  if (target) target.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+buildLinenSwatches();
+buildSeatSwatches();
+buildPlateSwatches();
+buildNapkinSwatches();
+buildFlowerUI();
+renderAll();
+</script>
+</body>
+</html>
